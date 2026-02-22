@@ -1,0 +1,13 @@
+{{ define "title" }}Blog | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+<h1>Blog</h1>
+{{- partial "pages-sorted.html" (dict "pages" .Pages "scratch" $.Scratch "key" "blogPages") -}}
+{{- $sortedPages := $.Scratch.Get "blogPages" -}}
+
+<ul id="blog-results">
+    {{ range $sortedPages }}
+    {{ partial "list/row.html" (dict "page" .) }}
+    {{ end }}
+</ul>
+
+{{ end }}

@@ -1,0 +1,19 @@
+{{ define "title" }}{{ .Title }} | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+{{ with .Params.description }}
+<p class="page-intro">{{ . }}</p>
+{{ end }}
+
+{{ if gt (len .Pages) 0 }}
+{{- partial "pages-sorted.html" (dict "pages" .Pages "scratch" $.Scratch "key" "sectionPages") -}}
+{{- $sortedPages := $.Scratch.Get "sectionPages" -}}
+<ul class="post-list">
+  {{ range $sortedPages }}
+    {{ partial "list/row.html" (dict "page" .) }}
+  {{ end }}
+</ul>
+{{ else }}
+<p>No entries yet.</p>
+{{ end }}
+{{ end }}

@@ -1,0 +1,29 @@
+{{ $projects := where .Site.RegularPages "Section" "projects" }}
+{{ $projects = sort $projects "Title" }}
+{{ $projects = sort $projects "Params.year" "desc" }}
+{{ $currentIndex := -1 }}
+{{ range $i, $p := $projects }}
+{{ if eq $p.RelPermalink $.RelPermalink }}
+{{ $currentIndex = $i }}
+{{ end }}
+{{ end }}
+{{ $prev := "" }}
+{{ $next := "" }}
+{{ if ge $currentIndex 0 }}
+{{ if gt $currentIndex 0 }}
+{{ $prev = index $projects (sub $currentIndex 1) }}
+{{ end }}
+{{ if lt $currentIndex (sub (len $projects) 1) }}
+{{ $next = index $projects (add $currentIndex 1) }}
+{{ end }}
+{{ end }}
+
+<nav class="project-pagination" aria-label="Project navigation">
+  {{ if $prev }}
+  <a class="project-pagination__link" href="{{ $prev.RelPermalink }}">← Previous project</a>
+  {{ end }}
+  <a class="project-pagination__link" href="/projects/">Back to all projects</a>
+  {{ if $next }}
+  <a class="project-pagination__link" href="{{ $next.RelPermalink }}">Next project →</a>
+  {{ end }}
+</nav>

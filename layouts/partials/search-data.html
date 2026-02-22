@@ -1,0 +1,20 @@
+{{- $pages := .pages -}}
+{{- $items := slice -}}
+{{- $scratch := newScratch -}}
+{{- range $pages -}}
+  {{- partial "date-format.html" (dict "date" .Date "scratch" $scratch "key" "dates") -}}
+  {{- $dates := $scratch.Get "dates" -}}
+  {{- $items = $items | append (dict
+    "title" .Title
+    "url" .RelPermalink
+    "date" (index $dates "date")
+    "dateISO" (index $dates "dateISO")
+    "content" .Plain
+    "params" .Params
+  ) -}}
+{{- end -}}
+{{- if and (isset . "scratch") (isset . "key") -}}
+  {{- .scratch.Set .key $items -}}
+{{- else -}}
+  {{- $items -}}
+{{- end -}}

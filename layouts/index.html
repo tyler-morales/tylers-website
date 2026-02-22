@@ -1,0 +1,135 @@
+{{ define "title" }}{{ .Site.Title }}{{ end }}
+{{ define "main" }}
+<h1 class="home-hero-title">
+    <span class="home-hero-word home-hero-word--1" tabindex="0" data-word="Tylers">Tylers</span>
+    <span class="home-hero-word home-hero-word--2" tabindex="0" data-word="New">New</span>
+    <span class="home-hero-word home-hero-word--3" tabindex="0" data-word="and">and</span>
+    <span class="home-hero-word home-hero-word--4" tabindex="0" data-word="Improved">Improved</span>
+    <span class="home-hero-word home-hero-word--5" tabindex="0" data-word="Website">Website</span>
+</h1>
+<div class="image-row">
+    <div class="image-block">
+        <a class="image-block__link" href="{{ with site.GetPage " page" "about" }}{{ .RelPermalink }}{{ end }}">
+            <img class="image-block__img"
+                src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGY0Zjc2aTN5c3M3OTAwZTd4aG1hdGJmYzYzam50MzNrYjBncmltdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/SlKBbQNNZNfcPRWYW7/giphy.gif"
+                alt="Animated GIF" loading="lazy">
+            <p>About me</p>
+        </a>
+    </div>
+
+    <div class="image-block">
+        <a class="image-block__link" href="{{ with site.GetPage " section" "blog" }}{{ .RelPermalink }}{{ end }}">
+            <img class="image-block__img"
+                src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXlwcG5zYWJ3Z3FoeTBzeDJuYTU5NjA3eTFsOWluMWFmMzlna3gwdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LPf9Dx2Cmd3sjVxvJA/giphy.gif"
+                alt="Animated GIF" loading="lazy">
+            <p>Blog</p>
+        </a>
+    </div>
+    <div class="image-block">
+        <a class="image-block__link" href="{{ with site.GetPage " page" "contact" }}{{ .RelPermalink }}{{ end }}">
+            <img class="image-block__img"
+                src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3N29uMm1ncDRvaWkweTNxNnd0NXY3Njl6OTU1azdnd2txa2h5eDBvcSZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/l2QEd4romWZdXOlEY/giphy.gif"
+                alt="Animated GIF" loading="lazy">
+            <p>Write to me</p>
+        </a>
+    </div>
+    <div class="image-block">
+        <a class="image-block__link" href="{{ with site.GetPage " section" "projects" }}{{ .RelPermalink }}{{ end }}">
+            <img class="image-block__img"
+                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaTN1aDkxa215MnQ2NnlxZnFtcDl6ZnFoMzR0M2l0anR0dnNmNGpjayZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/ao9DUiTKH60XS/giphy.gif"
+                alt="Animated GIF" loading="lazy">
+            <p>Projects</p>
+        </a>
+    </div>
+    <div class="image-block">
+        <a class="image-block__link" href="{{ with site.GetPage " section" "events" }}{{ .RelPermalink }}{{ end }}">
+            <img class="image-block__img"
+                src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2dvMWl6Z2pqYWZqcjFwM3hxN2t3enVyMTkwdHZqaWcxdW1pOG45dCZlcD12MV9zdGlja2Vyc19zZWFyY2gmY3Q9cw/10q9UFJVLRlPCnZ6rU/giphy.gif"
+                alt="Animated GIF" loading="lazy">
+            <p>Events</p>
+        </a>
+    </div>
+</div>
+<div class="home-search">
+    {{ partial "search.html" (dict
+    "id" "home-search-input"
+    "mode" "dropdown"
+    "class" "search-hero"
+    "placeholder" "Search Tyler's web..."
+    "label" "Search the site"
+    ) }}
+</div>
+{{- $surprisePages := partial "surprise-pages.html" . -}}
+<div class="search-surprise" data-surprise-pages='{{ $surprisePages }}'>
+    <button type="button" id="surprise-me">
+        surprise me
+    </button>
+</div>
+<script>
+    (function () {
+        var btn = document.getElementById("surprise-me");
+        var wrapper = btn ? btn.closest(".search-surprise") : null;
+        if (!btn || !wrapper) return;
+
+        var pages;
+        try {
+            pages = JSON.parse(wrapper.getAttribute("data-surprise-pages") || "[]");
+        } catch (error) {
+            return;
+        }
+        if (!pages.length) return;
+
+        function getConfettiOrigin() {
+            var rect = btn.getBoundingClientRect();
+            var width = window.innerWidth || document.documentElement.clientWidth;
+            var height = window.innerHeight || document.documentElement.clientHeight;
+            if (!width || !height) return null;
+
+            var originX = (rect.left + rect.width / 2) / width;
+            var originY = rect.bottom / height;
+
+            return {
+                x: Math.min(Math.max(originX, 0), 1),
+                y: Math.min(Math.max(originY, 0), 1)
+            };
+        }
+
+        function slowConfetti(origin) {
+            if (typeof window.confetti !== "function") return;
+            var duration = 800;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                window.confetti({
+                    particleCount: 8,
+                    startVelocity: 20,
+                    spread: 100,
+                    gravity: 0.8,
+                    ticks: 300,
+                    origin: origin || { y: 0.52 },
+                    useWorker: false
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+        }
+
+        btn.addEventListener("click", function () {
+            var randomPage = pages[Math.floor(Math.random() * pages.length)];
+            var hasConfetti = typeof window.confetti === "function";
+
+            if (hasConfetti) {
+                slowConfetti(getConfettiOrigin());
+                setTimeout(function () {
+                    window.location.href = randomPage;
+                }, 1500);
+                return;
+            }
+
+            window.location.href = randomPage;
+        });
+    })();
+</script>
+{{ end }}

@@ -1,0 +1,51 @@
+{{ define "title" }}{{ .Title }} | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+<div class="projects-page" data-projects-view="grid">
+  <div class="projects-header">
+    <div>
+      <h1>{{ .Title }}</h1>
+      {{ with .Params.description }}
+      <p class="page-intro">{{ . }}</p>
+      {{ end }}
+    </div>
+  </div>
+
+  {{ $sections := where .Pages "IsSection" true }}
+  {{ $regular := where .Pages "IsSection" false }}
+  {{ $adventure := where $sections "File.Dir" "projects/adventure-magazine/" }}
+  {{ $otherSections := where $sections "File.Dir" "ne" "projects/adventure-magazine/" }}
+  {{ if gt (add (len $sections) (len $regular)) 0 }}
+  {{- partial "pages-sorted.html" (dict "pages" $otherSections "scratch" $.Scratch "key" "otherSectionsSorted") -}}
+  {{- partial "pages-sorted.html" (dict "pages" $regular "scratch" $.Scratch "key" "regularSorted") -}}
+  {{- $otherSectionsSorted := $.Scratch.Get "otherSectionsSorted" -}}
+  {{- $regularSorted := $.Scratch.Get "regularSorted" -}}
+  <section class="projects-view projects-view--grid" aria-label="Projects grid">
+    <div class="projects-grid">
+      {{ range $adventure }}
+        {{ partial "projects/group-grid.html" (dict "section" .) }}
+      {{ end }}
+      {{ range $otherSectionsSorted }}
+        {{ partial "projects/group-grid.html" (dict "section" .) }}
+      {{ end }}
+      {{ range $regularSorted }}
+        {{ partial "projects/cell.html" . }}
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="projects-view projects-view--list" aria-label="Projects list">
+    <ul class="post-list">
+      {{ range $adventure }}
+        {{ partial "projects/group-list.html" (dict "section" .) }}
+      {{ end }}
+      {{ range $otherSectionsSorted }}
+        {{ partial "projects/group-list.html" (dict "section" .) }}
+      {{ end }}
+      {{ range $regularSorted }}
+        {{ partial "list/row.html" (dict "page" .) }}
+      {{ end }}
+    </ul>
+  </section>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,46 @@
+{{- $page := . -}}
+{{- $featured := $page.Params.featured_image -}}
+{{- $image := "" -}}
+{{- $isPortrait := false -}}
+{{- if $featured -}}
+  {{- $image = $page.Resources.GetMatch $featured -}}
+  {{- if $image -}}
+    {{- $isPortrait = gt $image.Height $image.Width -}}
+  {{- end -}}
+{{- end -}}
+{{- $transitionSlug := replaceRE "[^a-zA-Z0-9_-]" "-" $page.File.Path | lower -}}
+{{- $transitionSlug := replaceRE "[^a-zA-Z0-9_-]" "-" $page.File.Path | lower -}}
+
+<article class="project-tile">
+  <a class="project-tile__link" href="{{ $page.RelPermalink }}">
+    {{- if $image -}}
+      {{- $alt := $page.Params.featured_image_alt | default $page.Title -}}
+      {{- $w480 := $image.Fill "480x270 Center" -}}
+      {{- $w768 := $image.Fill "768x432 Center" -}}
+      {{- $w1024 := $image.Fill "1024x576 Center" -}}
+      {{- $preload := $image.Resize "1024x" -}}
+      <div class="project-tile__media{{ if $isPortrait }} is-portrait{{ end }}">
+        <img
+          src="{{ $w768.RelPermalink }}"
+          srcset="{{ $w480.RelPermalink }} 480w, {{ $w768.RelPermalink }} 768w, {{ $w1024.RelPermalink }} 1024w"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          width="{{ $w1024.Width }}"
+          height="{{ $w1024.Height }}"
+          alt="{{ $alt }}"
+          loading="lazy"
+          decoding="async"
+          class="project-cover-image"
+          data-view-transition-name="project-cover-{{ $transitionSlug }}"
+          data-preload-src="{{ $preload.RelPermalink }}"
+        >
+      </div>
+    {{- end -}}
+    <div class="project-tile__body">
+      <h2 class="project-tile__title">{{ $page.Title }}</h2>
+      {{- with $page.Params.description -}}
+        <p class="project-tile__description">{{ . }}</p>
+      {{- end -}}
+    </div>
+  </a>
+</article>
+

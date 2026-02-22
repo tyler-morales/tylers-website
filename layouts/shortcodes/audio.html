@@ -1,0 +1,24 @@
+{{- $page := .Page }}
+{{- $src := .Get "src" }}
+{{- $filename := .Get 0 }}
+{{- $url := "" }}
+{{- if $src }}
+  {{- $url = $src }}
+{{- else if $filename }}
+  {{- with $page.Resources.Get $filename }}
+    {{- $url = .Permalink }}
+  {{- end }}
+{{- end }}
+{{- if $url }}
+<figure class="post-audio">
+  <audio controls preload="metadata"{{ with .Get "title" }} title="{{ . }}"{{ end }}>
+    <source src="{{ $url }}" type="{{ or (.Get "type") "audio/mpeg" }}">
+    <a href="{{ $url }}">Download audio</a>
+  </audio>
+  {{- with .Inner }}
+  <figcaption>{{ . | $page.RenderString }}</figcaption>
+  {{- end }}
+</figure>
+{{- else }}
+<p class="post-audio-error">Audio resource not found{{ with $filename }}: {{ $filename }}{{ end }}.</p>
+{{- end }}

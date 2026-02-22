@@ -1,0 +1,9 @@
+{{ $showComments := ne .Params.comments false }}
+{{ if $showComments }}
+<section id="comments">
+    <h2>Comments</h2>
+    <section id="isso-thread"></section>
+    <script data-isso="https://comments.tylermorales.pro/" data-isso-require-author="false" data-isso-vote="true"
+        src="https://comments.tylermorales.pro/js/embed.min.js"></script>
+</section>
+{{ end }}

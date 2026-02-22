@@ -1,0 +1,10 @@
+{{- $dateValue := .date -}}
+{{- $result := dict
+  "date" ($dateValue.Format "Jan 2, 2006")
+  "dateISO" ($dateValue.Format "2006-01-02")
+-}}
+{{- if and (isset . "scratch") (isset . "key") -}}
+  {{- .scratch.Set .key $result -}}
+{{- else -}}
+  {{- $result -}}
+{{- end -}}

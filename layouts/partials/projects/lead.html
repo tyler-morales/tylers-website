@@ -1,0 +1,46 @@
+<div class="project-lead">
+  {{ partial "projects/featured-image.html" . }}
+
+  <dl class="project-meta-row">
+    {{ with .Params.status }}
+    <div>
+      <dt>Status</dt>
+      <dd>{{ . }}</dd>
+    </div>
+    {{ end }}
+    {{ with .Params.year }}
+    <div>
+      <dt>Year</dt>
+      <dd>{{ . }}</dd>
+    </div>
+    {{ end }}
+    {{ with .Params.role }}
+    <div>
+      <dt>Role</dt>
+      <dd>{{ . }}</dd>
+    </div>
+    {{ end }}
+    {{ with .Params.contributors }}
+    <div>
+      <dt>Contributors</dt>
+      <dd class="project-contributors">
+        {{ range . }}
+        {{ $role := .role | default "" }}
+        {{ $name := .name | default "" }}
+        {{ if and $role $name }}
+        <span class="project-contributor"><span class="project-contributor__role">{{ $role }}</span> {{ $name }}</span>
+        {{ else if $name }}
+        <span class="project-contributor">{{ $name }}</span>
+        {{ end }}
+        {{ end }}
+      </dd>
+    </div>
+    {{ end }}
+    {{ with .Params.link_url }}
+    <div>
+      <dt>{{ $.Params.link_title | default "Link" }}</dt>
+      <dd><a href="{{ . }}">Link</a></dd>
+    </div>
+    {{ end }}
+  </dl>
+</div>

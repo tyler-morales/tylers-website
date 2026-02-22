@@ -1,0 +1,7 @@
+{{- $surprisePages := slice -}}
+{{- range where .Site.RegularPages "Params.excludeFromSurprise" "ne" true -}}
+  {{- if ne .RelPermalink "/search/" -}}
+    {{- $surprisePages = $surprisePages | append .RelPermalink -}}
+  {{- end -}}
+{{- end -}}
+{{- $surprisePages | jsonify -}}

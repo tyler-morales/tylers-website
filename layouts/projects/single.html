@@ -1,0 +1,13 @@
+{{ define "title" }}{{ .Title }} | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+{{ partial "post/single-base.html" (dict
+  "page" .
+  "articleClass" "project-single"
+  "backLink" (dict "href" "/projects/" "label" "← Projects")
+  "intro" .Params.description
+  "leadPartial" "projects/lead.html"
+  "layoutClass" "project-layout"
+  "contentClass" "project-content"
+  "afterContentPartial" "projects/pagination.html"
+) }}
+{{ end }}

@@ -1,0 +1,20 @@
+{{- $section := .section -}}
+{{- if $section.IsSection -}}
+  {{- $scratch := newScratch -}}
+  {{- partial "pages-sorted.html" (dict "pages" $section.RegularPages "scratch" $scratch "key" "children") -}}
+  {{- $children := $scratch.Get "children" -}}
+  {{- if gt (len $children) 0 -}}
+    <div class="project-group">
+      <div class="project-group-label">{{ $section.Title }}</div>
+      <div class="project-group-frame">
+        <div class="project-group-grid">
+          {{- range $children -}}
+            {{ partial "projects/cell.html" . }}
+          {{- end -}}
+        </div>
+      </div>
+    </div>
+  {{- end -}}
+{{- else -}}
+  {{ partial "projects/cell.html" $section }}
+{{- end -}}

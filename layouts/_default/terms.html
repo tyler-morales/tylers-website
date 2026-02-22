@@ -1,0 +1,18 @@
+{{ define "title" }}{{ .Title }} | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+
+{{ $terms := .Data.Terms.Alphabetical }}
+{{ if gt (len $terms) 0 }}
+<ul class="post-list">
+  {{ range $terms }}
+    <li class="post-list-item">
+      <a class="post-list-title" href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+      <span class="post-list-count">({{ .Count }})</span>
+    </li>
+  {{ end }}
+</ul>
+{{ else }}
+<p>No entries yet.</p>
+{{ end }}
+{{ end }}

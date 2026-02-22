@@ -1,0 +1,15 @@
+{{ define "title" }}Events | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+<h1>Events</h1>
+
+{{- partial "pages-sorted.html" (dict "pages" .Pages "scratch" $.Scratch "key" "eventPages") -}}
+{{- $sortedPages := $.Scratch.Get "eventPages" -}}
+{{- partial "search-data.html" (dict "pages" $sortedPages "scratch" $.Scratch "key" "events") -}}
+{{- $events := $.Scratch.Get "events" -}}
+
+<ul id="events-results">
+    {{ range $sortedPages }}
+    {{ partial "list/row.html" (dict "page" .) }}
+    {{ end }}
+</ul>
+{{ end }}

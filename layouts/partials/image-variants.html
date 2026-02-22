@@ -1,0 +1,36 @@
+{{- $image := .image -}}
+{{- $mode := .mode | default "resize" -}}
+{{- $widths := .widths | default (slice 480 768 1024 1400) -}}
+{{- $variants := slice -}}
+{{- range $widths -}}
+  {{- if ge $image.Width . -}}
+    {{- $spec := printf "%dx" . -}}
+    {{- if eq $mode "fit" -}}
+      {{- $spec = printf "%dx%d" . . -}}
+    {{- end -}}
+    {{- $res := $image.Resize $spec -}}
+    {{- if eq $mode "fit" -}}
+      {{- $res = $image.Fit $spec -}}
+    {{- end -}}
+    {{- $variants = $variants | append (dict "w" . "res" $res) -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq (len $variants) 0 -}}
+  {{- $variants = slice (dict "w" $image.Width "res" $image) -}}
+{{- end -}}
+{{- $last := index $variants (sub (len $variants) 1) -}}
+{{- $srcset := slice -}}
+{{- range $variants -}}
+  {{- $srcset = $srcset | append (printf "%s %dw" .res.RelPermalink .w) -}}
+{{- end -}}
+{{- $result := dict
+  "src" $last.res.RelPermalink
+  "srcset" (delimit $srcset ", ")
+  "width" $last.res.Width
+  "height" $last.res.Height
+-}}
+{{- if and (isset . "scratch") (isset . "key") -}}
+  {{- .scratch.Set .key $result -}}
+{{- else -}}
+  {{- $result -}}
+{{- end -}}

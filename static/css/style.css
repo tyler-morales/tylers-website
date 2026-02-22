@@ -1,0 +1,87 @@
+#mood-footer {
+    position: static;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+#mood-link {
+    display: inline-flex;
+    text-decoration: none;
+}
+
+#mood-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+#mood-ring {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-sizing: border-box;
+    transform: scale(1);
+}
+
+#mood-emoji {
+    display: block;
+    line-height: 1;
+    transition: filter 200ms ease, opacity 200ms ease;
+}
+
+#mood-status {
+    font-size: 10px;
+    line-height: 1.2;
+    color: #777;
+    white-space: nowrap;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: text;
+}
+
+#mood-container.is-fresh #mood-ring {
+    border-color: #00ff00;
+}
+
+#mood-container.is-stale #mood-ring {
+    border-color: #ccc;
+}
+
+#mood-container.is-stale #mood-emoji {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+#mood-container.is-pulsing #mood-ring {
+    animation: mood-pulse 2s ease-in-out infinite;
+}
+
+@keyframes mood-pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #mood-container.is-pulsing #mood-ring {
+        animation: none;
+    }
+}

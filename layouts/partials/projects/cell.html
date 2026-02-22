@@ -1,0 +1,47 @@
+{{- $page := . -}}
+{{- $featured := $page.Params.featured_image -}}
+{{- $image := "" -}}
+{{- if $featured -}}
+{{- $image = $page.Resources.GetMatch $featured -}}
+{{- end -}}
+{{- $transitionSlug := replaceRE "[^a-zA-Z0-9_-]" "-" $page.File.Path | lower -}}
+{{- $date := "" -}}
+{{- $dateISO := "" -}}
+{{- $dateValue := $page.Date -}}
+{{- $hasDate := not $page.Date.IsZero -}}
+{{- if not $hasDate -}}
+  {{- $dateValue = $page.Lastmod -}}
+  {{- $hasDate = not $page.Lastmod.IsZero -}}
+{{- end -}}
+{{- if $hasDate -}}
+  {{- $scratch := newScratch -}}
+  {{- partial "date-format.html" (dict "date" $dateValue "scratch" $scratch "key" "dates") -}}
+  {{- $dates := $scratch.Get "dates" -}}
+  {{- $date = index $dates "date" -}}
+  {{- $dateISO = index $dates "dateISO" -}}
+{{- end -}}
+
+<article class="project-cell">
+  <a class="project-cell__link" href="{{ $page.RelPermalink }}">
+    <div class="project-media">
+      {{- if $image -}}
+      {{- $alt := $page.Params.featured_image_alt | default $page.Title -}}
+      {{- $w480 := $image.Fit "480x480" -}}
+      {{- $w768 := $image.Fit "768x768" -}}
+      {{- $w1024 := $image.Fit "1024x1024" -}}
+      {{- $preload := $image.Resize "1024x" -}}
+      <img src="{{ $w768.RelPermalink }}"
+        srcset="{{ $w480.RelPermalink }} 480w, {{ $w768.RelPermalink }} 768w, {{ $w1024.RelPermalink }} 1024w"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" width="{{ $w1024.Width }}"
+        height="{{ $w1024.Height }}" alt="{{ $alt }}" loading="lazy" decoding="async" class="project-cover-image"
+        data-view-transition-name="project-cover-{{ $transitionSlug }}" data-preload-src="{{ $preload.RelPermalink }}">
+      {{- end -}}
+    </div>
+    <div class="project-text">
+      <h2 class="project-title">{{ $page.Title }}</h2>
+      {{- if $date -}}
+      <time class="project-date" datetime="{{ $dateISO }}">{{ $date }}</time>
+      {{- end -}}
+    </div>
+  </a>
+</article>

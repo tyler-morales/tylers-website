@@ -1,0 +1,35 @@
+<header class="site-header">
+    {{- $navItems := slice
+    (dict "label" "Home" "href" "/" "section" "")
+    (dict "label" "Blog" "href" "/blog/" "section" "blog")
+    (dict "label" "Events" "href" "/events/" "section" "events")
+    (dict "label" "About" "href" "/about/" "section" "about")
+    (dict "label" "Projects" "href" "/projects/" "section" "projects")
+    (dict "label" "Contact" "href" "/contact/" "section" "contact")
+    -}}
+    <nav class="site-nav">
+        {{- range $navItems }}
+        {{- $isHome := and (eq .section "") $.IsHome -}}
+        {{- $isActive := cond (eq .href "/") $isHome (hasPrefix $.RelPermalink .href) -}}
+        <a class="nav-link{{ if $isActive }} active-link{{ end }}" href="{{ .href }}">
+            {{ .label }}
+        </a>
+        {{- end }}
+    </nav>
+    <div class="site-actions">
+        {{ if ne .Section "search" }}
+        <div class="nav-search">
+            {{ partial "search.html" (dict
+            "id" "site-search-input"
+            "mode" "dropdown"
+            "class" "site-search site-search--compact"
+            "placeholder" "Search..."
+            "label" "Search the site"
+            ) }}
+        </div>
+        {{ end }}
+        <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch to dark mode">
+            💡
+        </button>
+    </div>
+</header>

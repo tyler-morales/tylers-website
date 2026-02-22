@@ -1,0 +1,14 @@
+{{- $pages := .pages -}}
+{{- $reverse := true -}}
+{{- if isset . "reverse" -}}
+  {{- $reverse = .reverse -}}
+{{- end -}}
+{{- $sorted := $pages.ByDate -}}
+{{- if $reverse -}}
+  {{- $sorted = $pages.ByDate.Reverse -}}
+{{- end -}}
+{{- if and (isset . "scratch") (isset . "key") -}}
+  {{- .scratch.Set .key $sorted -}}
+{{- else -}}
+  {{- $sorted -}}
+{{- end -}}

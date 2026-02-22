@@ -1,0 +1,11 @@
+{{ define "title" }}{{ .Title }} | Events | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+{{ partial "post/single-base.html" (dict
+  "page" .
+  "articleClass" "event-single"
+  "backLink" (dict "href" "/events/" "label" "← Events")
+  "metaPartial" "events/post-meta.html"
+  "intro" .Params.subtitle
+  "featuredPartial" "blog/featured-image.html"
+) }}
+{{ end }}

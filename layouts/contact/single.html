@@ -1,0 +1,245 @@
+{{ define "title" }}{{ .Title }} | {{ .Site.Title }}{{ end }}
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+
+<section class="contact-email">
+    <p class="contact-email__line">
+        <button type="button" class="contact-email__button" id="contact-email-button"
+            aria-label="Copy email address to clipboard">
+            tyler [at] tylermorales [dot] pro
+        </button>
+        <span class="contact-email__label" aria-hidden="true">
+            <span class="contact-email__label-text contact-email__label-text--default">email:</span>
+            <span class="contact-email__label-text contact-email__label-text--hover">copy:</span>
+            <span class="contact-email__label-text contact-email__label-text--copied">copied:</span>
+        </span>
+    </p>
+</section>
+
+<script>
+    (() => {
+        const button = document.getElementById("contact-email-button");
+        let lastPointerType = "mouse";
+        let activeCleanup = null;
+        let isActive = false;
+        let activePointerId = null;
+        let anchorOffsetX = 0;
+        let anchorOffsetY = 0;
+        let lastPointerX = window.innerWidth / 2;
+        let lastPointerY = window.innerHeight / 2;
+        let resetTimeout;
+        const contactSection = button.closest(".contact-email");
+
+        if (!button) {
+            return;
+        }
+
+        const buildEmail = () => {
+            const user = "tyler";
+            const domain = "tylermorales";
+            const tld = "pro";
+            return `${user}@${domain}.${tld}`;
+        };
+
+        const isTouchDevice = () =>
+            window.matchMedia("(pointer: coarse)").matches ||
+            "ontouchstart" in window ||
+            navigator.maxTouchPoints > 0;
+
+        const prefersReducedMotion = () =>
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const fallbackCopy = (email) => {
+            const textarea = document.createElement("textarea");
+            textarea.value = email;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "absolute";
+            textarea.style.left = "-9999px";
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand("copy");
+            } catch (error) {
+                console.error("Email copy failed", error);
+            }
+            document.body.removeChild(textarea);
+        };
+
+        const copyToClipboard = async (email) => {
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(email);
+                } else {
+                    fallbackCopy(email);
+                }
+            } catch (error) {
+                fallbackCopy(email);
+            }
+        };
+
+        const setGhostState = (isGhost) => {
+            button.classList.toggle("contact-email__button--ghost", isGhost);
+        };
+
+        const setCopiedState = (isCopied) => {
+            if (!contactSection) {
+                return;
+            }
+            contactSection.classList.toggle("contact-email--copied", isCopied);
+        };
+
+        const setActiveState = (isAnimating) => {
+            if (!contactSection) {
+                return;
+            }
+            contactSection.classList.toggle("contact-email--active", isAnimating);
+        };
+
+        const startCursorFollowAnimation = (text, pointerId, offsetX, offsetY) => {
+            const overlayId = "contact-email-follower-layer";
+            let overlay = document.getElementById(overlayId);
+            if (!overlay) {
+                overlay = document.createElement("div");
+                overlay.id = overlayId;
+                overlay.className = "contact-email-follower-layer";
+                document.body.appendChild(overlay);
+            }
+
+            const follower = document.createElement("span");
+            follower.className = "contact-email-follower";
+            follower.textContent = text;
+            overlay.appendChild(follower);
+
+            const updatePosition = (x, y) => {
+                const translateX = x - offsetX + 20;
+                const translateY = y - offsetY - 10;
+                follower.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
+            };
+
+            const handlePointerMove = (event) => {
+                if (pointerId !== null && event.pointerId !== pointerId) {
+                    return;
+                }
+                lastPointerX = event.clientX;
+                lastPointerY = event.clientY;
+                updatePosition(event.clientX, event.clientY);
+            };
+
+            updatePosition(lastPointerX, lastPointerY);
+            window.addEventListener("pointermove", handlePointerMove);
+
+            return () => {
+                window.removeEventListener("pointermove", handlePointerMove);
+                follower.remove();
+            };
+        };
+
+        const resetInteraction = () => {
+            if (!isActive) {
+                return;
+            }
+            window.clearTimeout(resetTimeout);
+            setGhostState(false);
+            setCopiedState(false);
+            setActiveState(false);
+            if (activeCleanup) {
+                activeCleanup();
+                activeCleanup = null;
+            }
+            isActive = false;
+            activePointerId = null;
+            removeGlobalResetListeners();
+        };
+
+        const onGlobalPointerDown = (event) => {
+            if (event.target === button || button.contains(event.target)) {
+                return;
+            }
+            resetInteraction();
+        };
+
+        const onGlobalKeydown = () => {
+            resetInteraction();
+        };
+
+        const onGlobalWheel = () => {
+            resetInteraction();
+        };
+
+        const onGlobalTouchStart = () => {
+            resetInteraction();
+        };
+
+        const onVisibilityChange = () => {
+            if (document.hidden) {
+                resetInteraction();
+            }
+        };
+
+        const addGlobalResetListeners = () => {
+            window.addEventListener("pointerdown", onGlobalPointerDown);
+            window.addEventListener("keydown", onGlobalKeydown);
+            window.addEventListener("wheel", onGlobalWheel, { passive: true });
+            window.addEventListener("scroll", onGlobalWheel, { passive: true });
+            window.addEventListener("touchstart", onGlobalTouchStart, { passive: true });
+            window.addEventListener("blur", resetInteraction);
+            document.addEventListener("visibilitychange", onVisibilityChange);
+        };
+
+        const removeGlobalResetListeners = () => {
+            window.removeEventListener("pointerdown", onGlobalPointerDown);
+            window.removeEventListener("keydown", onGlobalKeydown);
+            window.removeEventListener("wheel", onGlobalWheel);
+            window.removeEventListener("scroll", onGlobalWheel);
+            window.removeEventListener("touchstart", onGlobalTouchStart);
+            window.removeEventListener("blur", resetInteraction);
+            document.removeEventListener("visibilitychange", onVisibilityChange);
+        };
+
+        button.addEventListener("pointerdown", (event) => {
+            lastPointerType = event.pointerType || "mouse";
+            if (event.pointerType === "mouse") {
+                const rect = button.getBoundingClientRect();
+                anchorOffsetX = event.clientX - rect.left;
+                anchorOffsetY = event.clientY - rect.top;
+                lastPointerX = event.clientX;
+                lastPointerY = event.clientY;
+                activePointerId = event.pointerId ?? null;
+            }
+        });
+
+        const handleCopy = async (event) => {
+            const email = buildEmail();
+            const obfuscatedText = button.textContent.trim();
+            const reduceMotion = prefersReducedMotion();
+            const isTouch = isTouchDevice();
+            const isKeyboard = event.detail === 0;
+            const shouldFollow = !reduceMotion && !isTouch && !isKeyboard && lastPointerType === "mouse";
+            const durationMs = 3000;
+
+            resetInteraction();
+            isActive = true;
+            setGhostState(true);
+            setCopiedState(true);
+            setActiveState(true);
+            addGlobalResetListeners();
+
+            await copyToClipboard(email);
+
+            if (shouldFollow) {
+                activeCleanup = startCursorFollowAnimation(
+                    obfuscatedText,
+                    activePointerId,
+                    anchorOffsetX,
+                    anchorOffsetY
+                );
+                resetTimeout = window.setTimeout(() => {
+                    resetInteraction();
+                }, durationMs);
+            }
+        };
+
+        button.addEventListener("click", handleCopy);
+    })();
+</script>
+{{ end }}

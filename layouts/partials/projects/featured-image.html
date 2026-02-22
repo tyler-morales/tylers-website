@@ -1,0 +1,75 @@
+{{- $featured_image := .Params.featured_image -}}
+{{- $linkUrl := .Params.link_url | default "" -}}
+{{- $bookId := "" -}}
+{{- if $linkUrl -}}
+  {{- $candidate := replaceRE "^.*?/books/([0-9]+)-.*$" "$1" $linkUrl -}}
+  {{- if and (ne $candidate $linkUrl) (ne $candidate "") -}}
+    {{- $bookId = $candidate -}}
+  {{- end -}}
+{{- end -}}
+{{- $isAdventureMagazine := and $bookId (in .File.Path "projects/adventure-magazine/") -}}
+{{- if $isAdventureMagazine -}}
+  {{- $image := "" -}}
+  {{- if $featured_image -}}
+    {{- $image = .Resources.GetMatch $featured_image -}}
+  {{- end -}}
+  <figure class="project-featured-embed">
+    <div class="project-featured-embed__frame">
+      <iframe id="data-blurb-bookshare-{{ $bookId }}"
+        src="https://www.blurb.com/bookshare/app/index.html?bookId={{ $bookId }}"
+        width="100%" height="100%" frameborder="0" allowfullscreen
+        onload="this.focus()" scrolling="no"></iframe>
+    </div>
+  </figure>
+  {{- if $image -}}
+    {{- $alt := .Params.featured_image_alt | default .Title -}}
+    {{- $isPortrait := gt $image.Height $image.Width -}}
+    {{- $scratch := newScratch -}}
+    {{- partial "image-variants.html" (dict
+      "image" $image
+      "mode" "resize"
+      "widths" (slice 480 768 1024 1400)
+      "scratch" $scratch
+      "key" "variants"
+    ) -}}
+    {{- $variants := $scratch.Get "variants" -}}
+    {{- $transitionSlug := replaceRE "[^a-zA-Z0-9_-]" "-" .File.Path | lower -}}
+<figure
+  class="project-featured-image project-featured-image--mobile{{ if $isPortrait }} featured-image--portrait{{ else }} featured-image--landscape{{ end }}">
+  <img src="{{ index $variants "src" }}"
+    srcset="{{ index $variants "srcset" }}"
+    sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, (max-width: 1024px) 1024px, 1400px"
+    width="{{ index $variants "width" }}" height="{{ index $variants "height" }}" alt="{{ $alt }}" loading="eager" fetchpriority="high"
+    decoding="async" class="project-cover-image" data-view-transition-name="project-cover-{{ $transitionSlug }}">
+</figure>
+  {{- else -}}
+    {{- warnf "Featured image '%s' not found in %s" $featured_image .File.Path -}}
+  {{- end -}}
+{{- else if $featured_image -}}
+  {{- $image := .Resources.GetMatch $featured_image -}}
+  {{- if $image -}}
+    {{- $alt := .Params.featured_image_alt | default .Title -}}
+    {{- $isPortrait := gt $image.Height $image.Width -}}
+    {{- $scratch := newScratch -}}
+    {{- partial "image-variants.html" (dict
+      "image" $image
+      "mode" "resize"
+      "widths" (slice 480 768 1024 1400)
+      "scratch" $scratch
+      "key" "variants"
+    ) -}}
+    {{- $variants := $scratch.Get "variants" -}}
+
+    {{- $transitionSlug := replaceRE "[^a-zA-Z0-9_-]" "-" .File.Path | lower -}}
+<figure
+  class="project-featured-image{{ if $isPortrait }} featured-image--portrait{{ else }} featured-image--landscape{{ end }}">
+  <img src="{{ index $variants "src" }}"
+    srcset="{{ index $variants "srcset" }}"
+    sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, (max-width: 1024px) 1024px, 1400px"
+    width="{{ index $variants "width" }}" height="{{ index $variants "height" }}" alt="{{ $alt }}" loading="eager" fetchpriority="high"
+    decoding="async" class="project-cover-image" data-view-transition-name="project-cover-{{ $transitionSlug }}">
+</figure>
+  {{- else -}}
+    {{- warnf "Featured image '%s' not found in %s" $featured_image .File.Path -}}
+  {{- end -}}
+{{- end -}}

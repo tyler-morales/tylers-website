@@ -1,0 +1,50 @@
+{{- $page := .page -}}
+{{- $articleClass := .articleClass | default "" -}}
+{{- $layoutClass := .layoutClass | default "" -}}
+{{- $contentClass := .contentClass | default "" -}}
+{{- $backLink := .backLink -}}
+{{- $metaPartial := .metaPartial -}}
+{{- $intro := .intro -}}
+{{- $leadPartial := .leadPartial -}}
+{{- $featuredPartial := .featuredPartial -}}
+{{- $afterContentPartial := .afterContentPartial -}}
+
+<article{{ if $articleClass }} class="{{ $articleClass }}" {{ end }}>
+  {{- with $backLink }}
+  <a class="back-link" href="{{ .href }}">{{ .label }}</a>
+  {{- end }}
+
+  {{- with $metaPartial }}
+  {{ partial . $page }}
+  {{- end }}
+
+  <h1>{{ $page.Title }}</h1>
+
+  {{- with $intro }}
+  <p class="page-intro">{{ . }}</p>
+  {{- end }}
+
+  {{- if $leadPartial }}
+  {{ partial $leadPartial $page }}
+  {{- end }}
+
+  <div class="post-layout{{ if $layoutClass }} {{ $layoutClass }}{{ end }}{{ if $featuredPartial }} post-layout--with-featured{{ end }}" data-toc="open">
+    {{ partial "post/toc.html" $page }}
+
+    {{- if $featuredPartial }}
+    <div class="post-featured-wrap">
+      {{ partial $featuredPartial $page }}
+    </div>
+    {{- end }}
+
+    <div class="post-content{{ if $contentClass }} {{ $contentClass }}{{ end }}">
+      {{ $page.Content }}
+      {{- with $afterContentPartial }}
+      {{ partial . $page }}
+      {{- end }}
+      {{ partial "comments.html" $page }}
+    </div>
+  </div>
+  </article>
+
+  {{ partial "post/toc-scripts.html" $page }}

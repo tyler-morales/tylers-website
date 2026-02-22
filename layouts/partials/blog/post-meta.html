@@ -1,0 +1,40 @@
+{{ $author := .Params.author | default .Site.Params.author | default "Unknown" }}
+{{ $scratch := newScratch }}
+{{ partial "date-format.html" (dict "date" .Date "scratch" $scratch "key" "published") }}
+{{ partial "date-format.html" (dict "date" .Lastmod "scratch" $scratch "key" "lastmod") }}
+{{ $published := $scratch.Get "published" }}
+{{ $lastmod := $scratch.Get "lastmod" }}
+{{ $publishedDate := index $published "date" }}
+{{ $publishedISO := index $published "dateISO" }}
+{{ $lastmodDate := index $lastmod "date" }}
+{{ $lastmodISO := index $lastmod "dateISO" }}
+{{ $showUpdated := ne $lastmodISO $publishedISO }}
+{{ $showComments := ne .Params.comments false }}
+<p class="post-meta" role="doc-subtitle">
+  <span class="post-meta__author">By {{ $author }}</span>
+  <span class="post-meta__details">
+    <span class="post-meta__item">
+      <span aria-hidden="true">·</span>
+      Published
+      <time datetime="{{ $publishedISO }}">{{ $publishedDate }}</time>
+    </span>
+    {{ if $showUpdated }}
+      <span class="post-meta__item">
+        <span aria-hidden="true">·</span>
+        Updated
+        <time datetime="{{ $lastmodISO }}">{{ $lastmodDate }}</time>
+      </span>
+    {{ end }}
+    <span class="post-meta__item">
+      <span aria-hidden="true">·</span>
+      {{ .ReadingTime }} min read
+    </span>
+    {{ if $showComments }}
+      <span class="post-meta__item">
+        <span aria-hidden="true">·</span>
+        Comments
+      </span>
+    {{ end }}
+  </span>
+</p>
+

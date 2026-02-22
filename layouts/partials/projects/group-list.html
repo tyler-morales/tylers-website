@@ -1,0 +1,18 @@
+{{- $section := .section -}}
+{{- if $section.IsSection -}}
+  <li class="post-list-item">
+    {{ partial "list/row.html" (dict "page" $section "wrap" false) }}
+    {{- $scratch := newScratch -}}
+    {{- partial "pages-sorted.html" (dict "pages" $section.RegularPages "scratch" $scratch "key" "children") -}}
+    {{- $children := $scratch.Get "children" -}}
+    {{- if gt (len $children) 0 -}}
+      <ul class="post-list-nested">
+        {{- range $children -}}
+          {{ partial "list/row.html" (dict "page" .) }}
+        {{- end -}}
+      </ul>
+    {{- end -}}
+  </li>
+{{- else -}}
+  {{ partial "list/row.html" (dict "page" $section) }}
+{{- end -}}

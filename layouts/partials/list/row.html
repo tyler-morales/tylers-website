@@ -1,0 +1,32 @@
+{{- $page := .page | default . -}}
+{{- $wrap := true -}}
+{{- if isset . "wrap" -}}
+{{- $wrap = .wrap -}}
+{{- end -}}
+{{- $title := $page.Title -}}
+{{- $url := $page.RelPermalink -}}
+{{- $date := "" -}}
+{{- $dateISO := "" -}}
+{{- $dateValue := $page.Date -}}
+{{- $hasDate := not $page.Date.IsZero -}}
+{{- if not $hasDate -}}
+{{- $dateValue = $page.Lastmod -}}
+{{- $hasDate = not $page.Lastmod.IsZero -}}
+{{- end -}}
+{{- if $hasDate -}}
+{{- $scratch := newScratch -}}
+{{- partial "date-format.html" (dict "date" $dateValue "scratch" $scratch "key" "dates") -}}
+{{- $dates := $scratch.Get "dates" -}}
+{{- $date = index $dates "date" -}}
+{{- $dateISO = index $dates "dateISO" -}}
+{{- end -}}
+{{- if $wrap -}}
+<li class="post-list-item">
+  {{- end -}}
+  {{- if $date -}}
+  <time class="post-list-date" datetime="{{ $dateISO }}">{{ $date }}</time>
+  {{- end -}}
+  <a class="post-list-title" href="{{ $url }}">{{ $title }}</a>
+  {{- if $wrap -}}
+</li>
+{{- end -}}

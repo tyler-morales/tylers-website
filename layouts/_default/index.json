@@ -1,0 +1,57 @@
+{{- $pages := where .Site.RegularPages "Draft" false -}}
+{{- $index := slice -}}
+{{- range $pages -}}
+  {{- $page := . -}}
+  {{- $summary := .Description | default (.Summary | plainify) -}}
+  {{- $bodyText := .RawContent | plainify | replaceRE "\\s+" " " | truncate 8000 -}}
+  {{- $preview := "" -}}
+  {{- with .Params.link_preview_image -}}
+    {{- $resource := $page.Resources.GetMatch . -}}
+    {{- if $resource -}}
+      {{- $preview = $resource.RelPermalink -}}
+    {{- else -}}
+      {{- $preview = . | relURL -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $parentTitle := "" -}}
+  {{- $parentPermalink := "" -}}
+  {{- with .Parent -}}
+    {{- if ne .Kind "home" -}}
+      {{- $parentTitle = .Title -}}
+      {{- $parentPermalink = .RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $tags := .Params.tags | default (slice) -}}
+  {{- $keywords := slice -}}
+  {{- $path := .RelPermalink | default "" -}}
+  {{- if eq $path "/" -}}
+    {{- $keywords = slice "home" -}}
+  {{- else if eq $path "/about/" -}}
+    {{- $keywords = slice "about" "bio" -}}
+  {{- else if eq $path "/blog/" -}}
+    {{- $keywords = slice "blog" "posts" "writing" -}}
+  {{- else if eq $path "/projects/" -}}
+    {{- $keywords = slice "projects" "work" -}}
+  {{- else if eq $path "/contact/" -}}
+    {{- $keywords = slice "email" "contact" "reach" "write" "message" -}}
+  {{- end -}}
+  {{- $scratch := newScratch -}}
+  {{- partial "date-format.html" (dict "date" .Date "scratch" $scratch "key" "dates") -}}
+  {{- $dates := $scratch.Get "dates" -}}
+  {{- $index = $index | append (dict
+      "title" .Title
+      "permalink" .RelPermalink
+      "section" .Section
+      "type" .Type
+      "description" ($summary | plainify)
+      "bodyText" $bodyText
+      "date" (index $dates "date")
+      "dateISO" (index $dates "dateISO")
+      "linkPreviewImage" $preview
+      "tags" $tags
+      "keywords" $keywords
+      "parentTitle" $parentTitle
+      "parentPermalink" $parentPermalink
+    ) -}}
+{{- end -}}
+{{- $index | jsonify -}}

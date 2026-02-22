@@ -1,0 +1,7 @@
+<h{{ .Level }} id="{{ .Anchor | safeURL }}">
+  {{- .Text | safeHTML -}}
+  <a class="heading-anchor" href="#{{ .Anchor | safeURL }}" aria-label="Anchor link for: {{ .PlainText }}">
+    <span aria-hidden="true">#</span>
+  </a>
+</h{{ .Level }}>
+

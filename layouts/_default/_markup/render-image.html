@@ -1,0 +1,71 @@
+{{- $u := urls.Parse .Destination -}}
+{{- $isRemote := or $u.Scheme $u.Host -}}
+{{- $img := "" -}}
+{{- $alt := .PlainText -}}
+{{- $caption := .Title -}}
+
+{{- if not $isRemote -}}
+  {{- /* Try page resource first */ -}}
+  {{- $img = .Page.Resources.GetMatch .Destination -}}
+  {{- if not $img -}}
+    {{- /* Fallback to global assets */ -}}
+    {{- $img = resources.Get .Destination -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if and $img (not $isRemote) -}}
+  {{- /* Process local image */ -}}
+  {{- $isPortrait := gt $img.Height $img.Width -}}
+  {{- $w480 := $img.Resize "480x" -}}
+  {{- $w768 := $img.Resize "768x" -}}
+  {{- $w1024 := $img.Resize "1024x" -}}
+  {{- $w1400 := "" -}}
+  {{- if ge $img.Width 1400 -}}
+    {{- $w1400 = $img.Resize "1400x" -}}
+  {{- end -}}
+
+  {{- $srcset := printf "%s 480w, %s 768w, %s 1024w" $w480.RelPermalink $w768.RelPermalink $w1024.RelPermalink -}}
+  {{- if $w1400 -}}
+    {{- $srcset = printf "%s, %s 1400w" $srcset $w1400.RelPermalink -}}
+  {{- end -}}
+
+  {{- /* Sizes logic: (max-width: 720px) 100vw, 65ch */ -}}
+  {{- $sizes := "(max-width: 720px) 100vw, 65ch" -}}
+
+  {{- if .IsBlock -}}
+    <figure class="markdown-image{{ if $isPortrait }} markdown-image--portrait{{ else }} markdown-image--landscape{{ end }}">
+      <img
+        src="{{ $w1024.RelPermalink }}"
+        srcset="{{ $srcset }}"
+        sizes="{{ $sizes }}"
+        width="{{ $img.Width }}"
+        height="{{ $img.Height }}"
+        alt="{{ $alt }}"
+        loading="lazy"
+        decoding="async"
+      >
+      {{- if $caption -}}
+        <figcaption>{{ $caption | markdownify }}</figcaption>
+      {{- end -}}
+    </figure>
+  {{- else -}}
+    <img
+      src="{{ $w1024.RelPermalink }}"
+      srcset="{{ $srcset }}"
+      sizes="{{ $sizes }}"
+      width="{{ $img.Width }}"
+      height="{{ $img.Height }}"
+      alt="{{ $alt }}"
+      loading="lazy"
+      decoding="async"
+      class="{{ if $isPortrait }}markdown-image--portrait{{ else }}markdown-image--landscape{{ end }}"
+    >
+  {{- end -}}
+{{- else -}}
+  {{- /* Remote or missing image fallback */ -}}
+  {{- if not $isRemote -}}
+    {{- warnf "Image '%s' not found in %s" .Destination .Page.File.Path -}}
+  {{- end -}}
+  <img src="{{ .Destination | safeURL }}" alt="{{ $alt }}" {{ with $caption }}title="{{ . }}"{{ end }} loading="lazy">
+{{- end -}}
+

@@ -1,0 +1,37 @@
+{{- $id := .id | default "site-search-input" -}}
+{{- $mode := .mode | default "dropdown" -}}
+{{- $placeholder := .placeholder | default "Search..." -}}
+{{- $label := .label | default "Search the site" -}}
+{{- $class := .class | default "" -}}
+{{- $instructions := .instructions | default "Enter a search term to find pages and posts." -}}
+<div class="search-component {{ $class }}" data-search-component data-search-mode="{{ $mode }}">
+    <form class="search-form" method="get" action="/search/" role="search">
+        <label for="{{ $id }}" class="sr-only">{{ $label }}</label>
+        <input id="{{ $id }}" name="q" type="search" placeholder="{{ $placeholder }}" autocomplete="off"
+            data-search-input />
+        <button class="search-submit" type="submit" aria-label="Search">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                <path d="M16.5 16.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                </path>
+            </svg>
+        </button>
+    </form>
+    <p class="search-instructions" data-search-instructions>{{ $instructions }}</p>
+    <div class="search-panel" data-search-panel hidden>
+        <p class="search-status" data-search-status aria-live="polite"></p>
+        <div class="search-meta" data-search-meta hidden></div>
+        <ul class="search-results" data-search-results></ul>
+        {{- if eq $mode "page" }}
+        <div class="search-pagination" data-search-pagination hidden>
+            <button class="search-page-button" type="button" data-search-prev>Prev</button>
+            <span class="search-page-status" data-search-page-status></span>
+            <button class="search-page-button" type="button" data-search-next>Next</button>
+        </div>
+        {{- else }}
+        <div class="search-footer" data-search-footer>
+            <a class="search-all-link" data-search-all href="/search/">See all results</a>
+        </div>
+        {{- end }}
+    </div>
+</div>

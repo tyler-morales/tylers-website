@@ -1,0 +1,20 @@
+{
+  "name": "test-hugo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "compress-images": "node ./scripts/compress-images.mjs",
+    "lint:md": "markdownlint \"content/**/*.md\"",
+    "test:site": "node ./scripts/check-site.mjs",
+    "test:links": "node ./scripts/check-site.mjs"
+  },
+  "devDependencies": {
+    "@iarna/toml": "^3.0.0",
+    "cheerio": "^1.0.0",
+    "markdownlint-cli": "^0.47.0",
+    "sharp": "^0.33.5"
+  },
+  "dependencies": {
+    "gsap": "^3.14.2"
+  }
+}

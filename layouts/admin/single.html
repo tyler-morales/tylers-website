@@ -1,0 +1,70 @@
+{{ define "head" }}
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="stylesheet" href="/css/kanban.css">
+{{ end }}
+
+{{ define "main" }}
+<section class="kanban" data-kanban>
+  <header class="kanban-header">
+    <div>
+      <p class="kanban-kicker">Private board</p>
+      <h1 class="kanban-title">{{ .Title }}</h1>
+      <p class="kanban-subtitle">Drag cards between columns. Changes stay in your browser.</p>
+    </div>
+    <div class="kanban-actions">
+      <button class="kanban-reset" type="button" data-kanban-reset>
+        Reset seed data
+      </button>
+    </div>
+  </header>
+
+  <section class="kanban-toolbar">
+    <div class="kanban-filters" data-kanban-filters>
+      <label>
+        Type
+        <select data-kanban-filter-type>
+          <option value="all">All</option>
+          <option value="Task">Task</option>
+          <option value="Feature">Feature</option>
+          <option value="Bug">Bug</option>
+        </select>
+      </label>
+      <label>
+        Priority
+        <select data-kanban-filter-priority>
+          <option value="all">All</option>
+          <option value="High">High</option>
+          <option value="Med">Med</option>
+          <option value="Low">Low</option>
+        </select>
+      </label>
+    </div>
+    <form class="kanban-quick-add" data-kanban-quick-add>
+      <input type="text" name="title" placeholder="New card title" aria-label="Card title" required>
+      <select name="type" aria-label="Type">
+        <option value="Task">Task</option>
+        <option value="Feature">Feature</option>
+        <option value="Bug">Bug</option>
+      </select>
+      <select name="priority" aria-label="Priority">
+        <option value="Med">Med</option>
+        <option value="High">High</option>
+        <option value="Low">Low</option>
+      </select>
+      <select name="column" aria-label="Column">
+        <option value="queue">Queue</option>
+        <option value="working">Working</option>
+        <option value="bugs">Bugs</option>
+        <option value="done">Done</option>
+      </select>
+      <input type="text" name="owner" placeholder="Owner (optional)" aria-label="Owner">
+      <input type="date" name="due" aria-label="Due date">
+      <button type="submit">Add</button>
+    </form>
+  </section>
+
+  <div class="kanban-board" data-kanban-board></div>
+</section>
+
+<script src="/js/kanban.js" defer></script>
+{{ end }}

@@ -1,0 +1,14 @@
+{{- $showExcerpt := or .excerpt .excerptSlot -}}
+{{- $page := .page | default . -}}
+
+<li class="post-list-item">
+  {{- partial "list/row.html" (dict "page" $page "wrap" false) -}}
+  {{- if $showExcerpt -}}
+  <div class="post-list-excerpt"{{ if .excerptSlot }} data-post-excerpt="true"{{ end }}>
+    {{- if .excerpt -}}
+      {{- .excerpt -}}
+    {{- end -}}
+  </div>
+  {{- end -}}
+</li>
+

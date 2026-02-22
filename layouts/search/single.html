@@ -1,0 +1,16 @@
+{{ define "title" }}Search | {{ .Site.Title }}{{ end }}
+
+{{ define "main" }}
+<div class="search-page-wrapper">
+    <h1>Search</h1>
+    {{ partial "search.html" (dict
+    "id" "search-page-input"
+    "mode" "page"
+    "class" "search-page"
+    "placeholder" "Search..."
+    "label" "Search the site"
+    ) }}
+    {{- $surprisePages := partial "surprise-pages.html" . -}}
+    <div class="search-surprise" data-surprise-pages='{{ $surprisePages }}' hidden></div>
+</div>
+{{ end }}

@@ -1,0 +1,38 @@
+{{- $featured_image := .Params.featured_image -}}
+{{- if $featured_image -}}
+  {{- $image := .Resources.GetMatch $featured_image -}}
+  {{- if $image -}}
+    {{- $alt := .Params.featured_image_alt | default .Title -}}
+    {{- $caption := .Params.featured_image_caption -}}
+    {{- $isPortrait := gt $image.Height $image.Width -}}
+
+    {{- $scratch := newScratch -}}
+    {{- partial "image-variants.html" (dict
+      "image" $image
+      "mode" "resize"
+      "widths" (slice 480 768 1024 1400)
+      "scratch" $scratch
+      "key" "variants"
+    ) -}}
+    {{- $variants := $scratch.Get "variants" -}}
+
+    <figure class="featured-image{{ if $isPortrait }} featured-image--portrait{{ else }} featured-image--landscape{{ end }}">
+      <img
+        src="{{ index $variants "src" }}"
+        srcset="{{ index $variants "srcset" }}"
+        sizes="(max-width: 720px) 100vw, 90ch"
+        width="{{ index $variants "width" }}"
+        height="{{ index $variants "height" }}"
+        alt="{{ $alt }}"
+        loading="lazy"
+        decoding="async"
+      >
+      {{- if $caption -}}
+        <figcaption>{{ $caption | markdownify }}</figcaption>
+      {{- end -}}
+    </figure>
+  {{- else -}}
+    {{- warnf "Featured image '%s' not found in %s" $featured_image .File.Path -}}
+  {{- end -}}
+{{- end -}}
+
