@@ -30,6 +30,12 @@ Each blog post is a **folder** (e.g. `content/blog/sunday-morning/`) containing 
 
 Nothing blog-specific needs to go in `static/`; keeping assets in the post folder keeps posts self-contained.
 
+## Comments
+
+Comments use [Isso](https://isso-comments.de/) (self-hosted at `comments.tylermorales.pro`). The UI is customized: minimal style, first-name initial avatars, heart-style likes, and threaded replies. Enable per post with `comments: true` in front matter (default). Styling and avatar script: `static/css/main.css` (under `#comments`) and `static/js/comments-avatars.js`.
+
+**Local vs live:** The embed loads from the same Isso server in both cases. Isso only accepts requests from whitelisted origins (CORS). If your Isso config lists only the production domain (e.g. `tylermorales.pro`), the Comments section will render locally but the thread will not load and you cannot post. That is expected. To test comments locally, add your dev URL to Isso’s `host` config (e.g. `host = "http://localhost:1313/"`). On the live site, comments work as long as the site’s origin is allowed.
+
 ## Compress images
 
 To shrink large images and convert them to WebP (only under `content/`), run:

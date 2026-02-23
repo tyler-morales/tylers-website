@@ -1,0 +1,272 @@
+:root {
+  --kanban-border: 1px solid #000000;
+  --kanban-bg: #ffffff;
+  --kanban-muted-bg: #e6e6e6;
+  --kanban-text: #000000;
+  --kanban-muted-text: #333333;
+  --kanban-kicker-text: #555555;
+  --kanban-count-text: #444444;
+  --kanban-link: #0000ee;
+}
+
+body {
+  background: var(--kanban-bg);
+  color: var(--kanban-text);
+}
+
+.kanban {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 0 2rem;
+  font-family: "Tahoma", "Verdana", "Segoe UI", sans-serif;
+}
+
+.kanban-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.kanban-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  color: var(--kanban-kicker-text);
+  margin: 0 0 0.25rem 0;
+}
+
+.kanban-title {
+  margin: 0 0 0.2rem 0;
+  font-size: 1.4rem;
+}
+
+.kanban-subtitle {
+  margin: 0;
+  color: var(--kanban-muted-text);
+}
+
+.kanban-reset,
+.kanban-quick-add button,
+.kanban-card-edit-actions button,
+.kanban-add button {
+  border: var(--kanban-border);
+  background: var(--kanban-muted-bg);
+  color: inherit;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.kanban-reset {
+  padding: 0.3rem 0.6rem;
+}
+
+.kanban-toolbar {
+  border: var(--kanban-border);
+  background: var(--kanban-bg);
+  padding: 0.6rem;
+  margin-bottom: 0.9rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.kanban-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.kanban-filters label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.kanban-filters select {
+  padding: 0.2rem 0.3rem;
+}
+
+.kanban-quick-add {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 0.7fr) 0.9fr 0.8fr 0.5fr;
+  gap: 0.4rem;
+}
+
+.kanban-quick-add input,
+.kanban-quick-add select,
+.kanban-card-edit-form input,
+.kanban-card-edit-form select,
+.kanban-add input,
+.kanban-filters select {
+  border: var(--kanban-border);
+  border-radius: 0;
+  background: var(--kanban-bg);
+  color: inherit;
+}
+
+.kanban-quick-add input,
+.kanban-quick-add select {
+  padding: 0.25rem 0.35rem;
+  font-size: 0.8rem;
+}
+
+.kanban-quick-add button {
+  padding: 0.25rem 0.4rem;
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+.kanban-column {
+  background: var(--kanban-bg);
+  border: var(--kanban-border);
+  border-radius: 0;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+}
+
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.kanban-column-title {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.kanban-column-count {
+  font-size: 0.75rem;
+  color: var(--kanban-count-text);
+}
+
+.kanban-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 90px;
+}
+
+.kanban-list.is-dragover {
+  outline: 1px dashed var(--kanban-text);
+  outline-offset: 2px;
+}
+
+.kanban-card {
+  background: var(--kanban-bg);
+  border: var(--kanban-border);
+  border-radius: 0;
+  padding: 0.5rem;
+  cursor: grab;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.kanban-card--bug {
+  border-style: dashed;
+}
+
+.kanban-card.is-dragging {
+  opacity: 0.6;
+}
+
+.kanban-card-title {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.kanban-card-meta {
+  font-size: 0.75rem;
+  color: var(--kanban-muted-text);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+}
+
+.kanban-card-meta span {
+  white-space: nowrap;
+}
+
+.kanban-card-meta strong {
+  font-weight: 600;
+}
+
+.kanban-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.kanban-card-edit,
+.kanban-card-delete {
+  background: transparent;
+  border: 0;
+  color: var(--kanban-link);
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.kanban-card-edit-form {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.kanban-card-edit-form label {
+  font-size: 0.75rem;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.kanban-card-edit-form input,
+.kanban-card-edit-form select {
+  padding: 0.25rem 0.35rem;
+  font-size: 0.8rem;
+}
+
+.kanban-card-edit-actions {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.kanban-card-edit-actions button {
+  padding: 0.25rem 0.4rem;
+}
+
+.kanban-add {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.kanban-add input {
+  flex: 1;
+  padding: 0.3rem 0.4rem;
+}
+
+.kanban-add button {
+  padding: 0.3rem 0.5rem;
+}
+
+@media (max-width: 720px) {
+  .kanban-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kanban-quick-add {
+    grid-template-columns: 1fr;
+  }
+}

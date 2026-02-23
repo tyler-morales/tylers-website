@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Run for Fun | Tylers New and Improved Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        (function () {
+            try {
+                var storedTheme = localStorage.getItem("theme");
+                var systemDark = window.matchMedia &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches;
+                var theme = storedTheme === "light" || storedTheme === "dark"
+                    ? storedTheme
+                    : (systemDark ? "dark" : "light");
+                document.documentElement.setAttribute("data-theme", theme);
+            } catch (error) { }
+        })();
+    </script>
+    <script>
+        (function () {
+            try {
+                var reducedMotion = window.matchMedia &&
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+                if (reducedMotion) {
+                    sessionStorage.removeItem("vt-intent");
+                    sessionStorage.removeItem("vt-name");
+                    return;
+                }
+
+                var intent = sessionStorage.getItem("vt-intent");
+                var name = sessionStorage.getItem("vt-name");
+                var path = window.location.pathname || "";
+                var isProjectDetail = path.indexOf("/projects/") === 0 && path !== "/projects/";
+
+                if (intent === "project-image" && name && isProjectDetail) {
+                    document.documentElement.classList.add("vt-project-image");
+                    window.addEventListener("pagereveal", function (event) {
+                        if (!event.viewTransition) {
+                            return;
+                        }
+                        var selector = '.project-cover-image[data-view-transition-name="' + name + '"]';
+                        var image = document.querySelector(selector);
+                        if (!image) {
+                            return;
+                        }
+                        var timeout = new Promise(function (resolve) {
+                            setTimeout(resolve, 120);
+                        });
+                        var decoded = image.decode ? image.decode().catch(function () { }) : Promise.resolve();
+                        Promise.race([decoded, timeout]).then(function () { });
+                    }, { once: true });
+                } else {
+                    sessionStorage.removeItem("vt-intent");
+                    sessionStorage.removeItem("vt-name");
+                }
+            } catch (error) { }
+        })();
+    </script>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    
+</head>
+
+<body>
+    
+    <header class="site-header"><nav class="site-nav"><a class="nav-link" href="/">
+            Home
+        </a><a class="nav-link active-link" href="/blog/">
+            Blog
+        </a><a class="nav-link" href="/events/">
+            Events
+        </a><a class="nav-link" href="/about/">
+            About
+        </a><a class="nav-link" href="/projects/">
+            Projects
+        </a><a class="nav-link" href="/contact/">
+            Contact
+        </a>
+    </nav>
+    <div class="site-actions">
+        
+        <div class="nav-search">
+            <div class="search-component site-search site-search--compact" data-search-component data-search-mode="dropdown">
+    <form class="search-form" method="get" action="/search/" role="search">
+        <label for="site-search-input" class="sr-only">Search the site</label>
+        <input id="site-search-input" name="q" type="search" placeholder="Search..." autocomplete="off"
+            data-search-input />
+        <button class="search-submit" type="submit" aria-label="Search">
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                <path d="M16.5 16.5L21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                </path>
+            </svg>
+        </button>
+    </form>
+    <p class="search-instructions" data-search-instructions>Enter a search term to find pages and posts.</p>
+    <div class="search-panel" data-search-panel hidden>
+        <p class="search-status" data-search-status aria-live="polite"></p>
+        <div class="search-meta" data-search-meta hidden></div>
+        <ul class="search-results" data-search-results></ul>
+        <div class="search-footer" data-search-footer>
+            <a class="search-all-link" data-search-all href="/search/">See all results</a>
+        </div>
+    </div>
+</div>
+        </div>
+        
+        <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch to dark mode">
+            💡
+        </button>
+    </div>
+</header>
+    
+
+    <main>
+        
+<article>
+  <a class="back-link" href="/blog/">← Blog</a>
+  
+
+
+
+
+
+
+
+
+
+
+
+<p class="post-meta" role="doc-subtitle">
+  <span class="post-meta__author">By Tyler Morales</span>
+  <span class="post-meta__details">
+    <span class="post-meta__item">
+      <span aria-hidden="true">·</span>
+      Published
+      <time datetime="2026-02-06">Feb 6, 2026</time>
+    </span>
+    
+    <span class="post-meta__item">
+      <span aria-hidden="true">·</span>
+      5 min read
+    </span>
+    
+      <span class="post-meta__item">
+        <span aria-hidden="true">·</span>
+        Comments
+      </span>
+    
+  </span>
+</p>
+
+
+
+  <h1>Run for Fun</h1>
+
+  <div class="post-layout post-layout--with-featured" data-toc="open">
+    <aside class="post-sidebar" id="post-toc">
+  
+  <button id="toc-toggle" class="toc-toggle" aria-expanded="true" aria-controls="post-toc">
+    <span class="sr-only">Toggle table of contents</span>
+    <svg class="icon-toc" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+  <nav id="TableOfContentsNav" class="toc" aria-label="Table of contents">
+    <details open class="toc-details">
+      <summary>On this page</summary>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#run-for-fun">Run for Fun</a>
+      <ul>
+        <li><a href="#elementary--middle-school-running-2008-2012">Elementary &amp; Middle School Running 2008-2012</a></li>
+        <li><a href="#high-school-running-2013-2017">High School Running 2013-2017</a></li>
+        <li><a href="#collegiate-running-2017-2020">Collegiate Running 2017-2020</a></li>
+        <li><a href="#adult-running-2020-2025">Adult Running 2020-2025</a></li>
+        <li><a href="#barefoot-running-2025-present">Barefoot Running 2025-Present</a></li>
+        <li><a href="#now-where-does-this-leave-me-today">Now, where does this leave me today?</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </details>
+  </nav>
+  
+</aside>
+
+
+    <div class="post-featured-wrap">
+      <figure class="featured-image featured-image--landscape">
+      <img
+        src="/blog/run-for-fun/feature_hu_aefff22b83f0401f.webp"
+        srcset="/blog/run-for-fun/feature_hu_aefff22b83f0401f.webp 480w"
+        sizes="(max-width: 720px) 100vw, 90ch"
+        width="480"
+        height="360"
+        alt="My friends on my XC team. We played hand ball and won 🏆!"
+        loading="lazy"
+        decoding="async"
+      ><figcaption>My friends on my XC team. We played hand ball and won 🏆!</figcaption></figure>
+    </div>
+
+    <div class="post-content">
+      <h2 id="run-for-fun">Run for Fun<a class="heading-anchor" href="#run-for-fun" aria-label="Anchor link for: Run for Fun">
+    <span aria-hidden="true">#</span>
+  </a>
+</h2>
+
+<p>&ldquo;Run for Fun&rdquo; was my high school Cross Country team&rsquo;s <em>fun</em> motto.</p>
+<p>Sort of ironic, but also somewhat serious, it was a perfect phrase to capture our team and goals.</p>
+<p>However, this is not necessarily a reflection post on my high school running career. Instead, it&rsquo;s about <em>running for fun</em>.</p>
+<h3 id="elementary--middle-school-running-2008-2012">Elementary &amp; Middle School Running 2008-2012<a class="heading-anchor" href="#elementary--middle-school-running-2008-2012" aria-label="Anchor link for: Elementary &amp; Middle School Running 2008-2012">
+    <span aria-hidden="true">#</span>
+  </a>
+</h3>
+
+<p>I can&rsquo;t remember what was the impetus for me running. It could have been my mom who had started to run local 5k races or my drive of competition. Whatever it was, I was running hard before any structured training when I was around 14 years old.</p>
+<p>Wheather it was the straw run or pacer in elementary school, or the yearly 5k run, I wanted to run.</p>
+<blockquote>
+<p>📋: <strong>Note:</strong> the straw run was a PE activity where each lap around the outdoor field, we would get a straw. There was an unsaid winner with the most staws. I wanted to be the one with the most straws.</p>
+</blockquote>
+<blockquote>
+<p>📋: <strong>Note:</strong> the <a href="https://en.wikipedia.org/wiki/Multi-stage_fitness_test"
+  target="_blank" rel="noopener noreferrer" >pacer<span class="external-link-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      style="margin-left: 0.25rem; vertical-align: middle;">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+  </span></a> is multi-stage fitness test. Each level increases how fast you have to run back and forth in a gym. I wanted to be the last one standing. Oftentimes, it would be grueling to outrun my classmates and friends. Keep in mind, we did this in our regular clothes and then went straight to class afterwards 😂</p>
+</blockquote>
+<p><img
+      src="/blog/run-for-fun/run-for-roses_hu_166ce3c29d23fd76.webp"
+      srcset="/blog/run-for-fun/run-for-roses_hu_a87f09b99793bb6d.webp 480w, /blog/run-for-fun/run-for-roses_hu_4ca567489ebb1aa0.webp 768w, /blog/run-for-fun/run-for-roses_hu_166ce3c29d23fd76.webp 1024w, /blog/run-for-fun/run-for-roses_hu_f534046f92162ade.webp 1400w"
+      sizes="(max-width: 720px) 100vw, 65ch"
+      width="1920"
+      height="1440"
+      alt="Run for roses"
+      loading="lazy"
+      decoding="async"
+      class="markdown-image--landscape"
+    >
+<em>Run for roses 5k shirt</em></p>
+<p>Middle school running was where I got my offical start in strucuttred training and meets. Although I joind only in 8th grade, I quickly was one of the top runners and was invited to an invite only meet.</p>
+<p>Perhaps the flame grew from here to race.</p>
+<p><img
+      src="/blog/run-for-fun/park_hu_2580e97fc9d6ce9e.webp"
+      srcset="/blog/run-for-fun/park_hu_2a839a63f618c16d.webp 480w, /blog/run-for-fun/park_hu_22afbe33ee567c69.webp 768w, /blog/run-for-fun/park_hu_2580e97fc9d6ce9e.webp 1024w, /blog/run-for-fun/park_hu_79b669ed07e0a0bc.webp 1400w"
+      sizes="(max-width: 720px) 100vw, 65ch"
+      width="1920"
+      height="1440"
+      alt="Park Junior High"
+      loading="lazy"
+      decoding="async"
+      class="markdown-image--landscape"
+    >
+<em>My first meet at Nazerath in 8th grade</em></p>
+<p>This period was a time where I would want to sign up for 5k&rsquo;s. I was running for fun!</p>
+<h3 id="high-school-running-2013-2017">High School Running 2013-2017<a class="heading-anchor" href="#high-school-running-2013-2017" aria-label="Anchor link for: High School Running 2013-2017">
+    <span aria-hidden="true">#</span>
+  </a>
+</h3>
+
+<p>Obsessed with speed and winning, high school was a structured approach to running. From the top down, coaches and teammates were aligned on our mission: to win state (at least my senior year). That goal requires tough workouts.</p>
+<p><img
+      src="/blog/run-for-fun/hs_hu_611f1010cf912446.webp"
+      srcset="/blog/run-for-fun/hs_hu_7a0fbaebf213d3c3.webp 480w, /blog/run-for-fun/hs_hu_27cf297a5dc664eb.webp 768w, /blog/run-for-fun/hs_hu_611f1010cf912446.webp 1024w"
+      sizes="(max-width: 720px) 100vw, 65ch"
+      width="1106"
+      height="1660"
+      alt="2015 me in Hisgschool"
+      loading="lazy"
+      decoding="async"
+      class="markdown-image--portrait"
+    >
+<em>2015 me in Hisgschool</em></p>
+<p><em>Example workout</em>
+Tempo:</p>
+<ul>
+<li>5x1mile laps around a park</li>
+<li>Each lap we progressively run faster</li>
+<li>Start at 6:20 min/mile, finish around 5:30 min/mile</li>
+</ul>
+<p>This, in addition to speed work and hill training, made me into a fast runner. Even though I enjoyed it, maybe I enjoyed the team aspect more&hellip;</p>
+<p>In high school, I was the fastest I&rsquo;ve ever been. It was fun, but tough.</p>
+<p>I was running to win.</p>
+<h3 id="collegiate-running-2017-2020">Collegiate Running 2017-2020<a class="heading-anchor" href="#collegiate-running-2017-2020" aria-label="Anchor link for: Collegiate Running 2017-2020">
+    <span aria-hidden="true">#</span>
+  </a>
+</h3>
+
+<p>In college, I joined the triathlon team. As such, time had to be split between swimming, biking, and running. Coming off a relatively strong high school running career, I was a solid runner, but still not as fast as I was in high school.</p>
+<p><img
+      src="/blog/run-for-fun/triathlon_hu_e3229c8671cfca6f.webp"
+      srcset="/blog/run-for-fun/triathlon_hu_4e660039b954b520.webp 480w, /blog/run-for-fun/triathlon_hu_15b8afe72a6bc76b.webp 768w, /blog/run-for-fun/triathlon_hu_e3229c8671cfca6f.webp 1024w"
+      sizes="(max-width: 720px) 100vw, 65ch"
+      width="1106"
+      height="1660"
+      alt="triathlon"
+      loading="lazy"
+      decoding="async"
+      class="markdown-image--portrait"
+    >
+<em>Chicago 2018 Triathlon</em></p>
+<p>I still did tempo runs and structured training to be the fastest triathlete I could be. However, being a triathlete takes hours. I would spend upwards to 20 hours a week training.</p>
+<p>Over time, this was unsustainable and I burned myself out.</p>
+<p>I would often restart tempo runs for a week or two, but eventually fell off and my running would be inconsistent.</p>
+<p>With the Covid-19 pandemic taking over the world, I did have time to train, but this cycle of training quickly faded away.</p>
+<p>I was running to&hellip; get back to what I was&hellip; but it wasn&rsquo;t happening.</p>
+<h3 id="adult-running-2020-2025">Adult Running 2020-2025<a class="heading-anchor" href="#adult-running-2020-2025" aria-label="Anchor link for: Adult Running 2020-2025">
+    <span aria-hidden="true">#</span>
+  </a>
+</h3>
+
+<p>When I moved to Chicago, I restarted running, but it was still inconsistent. I wasn&rsquo;t really sure why I was training. This made me feel like, what&rsquo;s the point? I&rsquo;ve always thought of myself as a runner, but at this point, I was not fast or fit.</p>
+<p>This was a hard pill to swallow that lasted a number of years.</p>
+<p>I would train for some time, then drop it, train again, and drop.</p>
+<p>I had no goal or reason why I <em>should</em> run.</p>
+<p>I was running to get back to my highschool runner self.</p>
+<h3 id="barefoot-running-2025-present">Barefoot Running 2025-Present<a class="heading-anchor" href="#barefoot-running-2025-present" aria-label="Anchor link for: Barefoot Running 2025-Present">
+    <span aria-hidden="true">#</span>
+  </a>
+</h3>
+
+<p>My mom was interested in barefoot running about a decade ago. She bought two books:</p>
+<ol>
+<li><a href="https://www.goodreads.com/book/show/8172776-barefoot-running?from_search=true&amp;from_srp=true&amp;qid=bUuAZnoP3M&amp;rank=4"
+  target="_blank" rel="noopener noreferrer" >Barefoot Running<span class="external-link-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      style="margin-left: 0.25rem; vertical-align: middle;">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+  </span></a></li>
+<li><a href="https://www.goodreads.com/book/show/19567944-why-we-run?from_search=true&amp;from_srp=true&amp;qid=rPhUgo0169&amp;rank=1"
+  target="_blank" rel="noopener noreferrer" >Why We Run<span class="external-link-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      style="margin-left: 0.25rem; vertical-align: middle;">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+  </span></a></li>
+</ol>
+<p>After a visit back home to my parents, I picked up both. Since then, I&rsquo;ve finished Barefoot Running.</p>
+<p>That has truly made me rethink running.</p>
+<p>The premise of the book is that there are cultures that thrive on running. It&rsquo;s their form of transportation, fun, and way of life.</p>
+<p>Developing makeshift running sandals out of recycled tires and string, they run as close to the ground as possible. They&rsquo;ll even run barefoot too!</p>
+<p>The mind-blowing idea that has stayed with me after reading that book was this: they don&rsquo;t get injured.</p>
+<p>I&rsquo;ve been injured over the years and it seems to be because I force myself to run, not for fun, but to be fast. Pair this with the running shoe industry practically telling people that if they don&rsquo;t purchase their hundreds of dollars running shoes, they&rsquo;ll get injured.</p>
+<p>Yet, the exact opposite is true. The more we as humans are away from the ground, the more injured we become.</p>
+<p>Since then, I&rsquo;ve begun running in more minimal shoes—<a href="https://www.toms.com"
+  target="_blank" rel="noopener noreferrer" >TOMS<span class="external-link-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      style="margin-left: 0.25rem; vertical-align: middle;">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+  </span></a> and even barefoot on grass.</p>
+<p>Since the end of 2025, I&rsquo;ve been running at least a mile a day—and I&rsquo;m having fun doing it.</p>
+<p>I&rsquo;ve left behind the need for speed and replaced it with a need for fun.</p>
+<h3 id="now-where-does-this-leave-me-today">Now, where does this leave me today?<a class="heading-anchor" href="#now-where-does-this-leave-me-today" aria-label="Anchor link for: Now, where does this leave me today?">
+    <span aria-hidden="true">#</span>
+  </a>
+</h3>
+
+<p>I&rsquo;m happily running every day and sometimes more than a mile. In fact, my average daily mileage is roughly 3 miles a day!</p>
+<p>Running, for me now, is more of just something I do every day. Just like how you brush your teeth, running is flossing for my body and mind.</p>
+<p><img
+      src="/blog/run-for-fun/now_hu_9a7541679732fe0c.webp"
+      srcset="/blog/run-for-fun/now_hu_3f986f6fbcdd52ea.webp 480w, /blog/run-for-fun/now_hu_f3f663e24d3f569e.webp 768w, /blog/run-for-fun/now_hu_9a7541679732fe0c.webp 1024w"
+      sizes="(max-width: 720px) 100vw, 65ch"
+      width="1246"
+      height="1660"
+      alt="My techware running outfit"
+      loading="lazy"
+      decoding="async"
+      class="markdown-image--portrait"
+    >
+<em>Me in my total techware fit for the rain</em></p>
+<p>I&rsquo;m not sure how long I&rsquo;ll keep running, but for right now, I&rsquo;m having fun doing it.</p>
+<p>Now, i&rsquo;m running for fun :)</p>
+<p>Follow me on <a href="https://www.strava.com/athletes/24391901"
+  target="_blank" rel="noopener noreferrer" >strava<span class="external-link-icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      style="margin-left: 0.25rem; vertical-align: middle;">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+  </span></a></p>
+
+      
+
+<section id="comments">
+    <h2>Comments</h2>
+    <section id="isso-thread"></section>
+    <script data-isso="https://comments.tylermorales.pro/" data-isso-require-author="false" data-isso-vote="true"
+        data-isso-max-comments-nested="5"
+        src="https://comments.tylermorales.pro/js/embed.min.js"></script>
+    <script src="/js/comments-avatars.js" defer></script>
+</section>
+
+    </div>
+  </div>
+  </article>
+
+  
+<script src="/js/toc-toggle.js" defer></script>
+<script src="/js/toc-active-section.js" defer></script>
+
+
+        </main>
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <div id="mood-footer">
+            <div id="mood-container" title="Loading mood..." data-lastmod="2026-02-22T00:00:00Z">
+                <a id="mood-link" href="/blog/sunday-morning/" aria-label="Open latest update">
+                    <div id="mood-ring">
+                        <span id="mood-emoji">🙂</span>
+                    </div>
+                </a>
+                <button id="mood-status" type="button" aria-pressed="false">Last edit was ...</button>
+            </div>
+        </div>
+        
+
+        <script src="/js/vendor/canvas-confetti.min.js" defer></script>
+        <script src="/js/search.js" defer></script>
+        <script src="/js/search-highlight.js" defer></script>
+        <script src="/js/theme.js" defer></script>
+        <script src="/js/project-view-transitions.js" defer></script>
+        <script src="/js/project-image-preload.js" defer></script>
+        <script src="/js/image-loading.js" defer></script>
+        <script src="/js/image-lightbox.js" defer></script>
+        <script src="/js/markdown-inline-code.js" defer></script>
+        <script>
+            (function () {
+                var container = document.getElementById("mood-container");
+                var link = document.getElementById("mood-link");
+                var emoji = document.getElementById("mood-emoji");
+                var status = document.getElementById("mood-status");
+                if (!container || !emoji || !status || !link) {
+                    return;
+                }
+                var relativeText = "";
+                var absoluteText = "";
+                var isAbsolute = false;
+
+                function formatAbsolute(timestamp) {
+                    var date = new Date(timestamp);
+                    return date.toLocaleString(undefined, {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit"
+                    });
+                }
+
+                function timeAgo(ms) {
+                    var seconds = Math.floor(ms / 1000);
+                    if (seconds < 60) {
+                        return "just now";
+                    }
+                    var minutes = Math.floor(seconds / 60);
+                    if (minutes < 60) {
+                        return minutes === 1 ? "1 minute ago" : minutes + " minutes ago";
+                    }
+                    var hours = Math.floor(minutes / 60);
+                    if (hours < 24) {
+                        return hours === 1 ? "1 hour ago" : hours + " hours ago";
+                    }
+                    var days = Math.floor(hours / 24);
+                    return days === 1 ? "1 day ago" : days + " days ago";
+                }
+
+                function pickEmoji(ageMs) {
+                    var day = 24 * 60 * 60 * 1000;
+                    if (ageMs < day) {
+                        return "✨";
+                    }
+                    if (ageMs < 7 * day) {
+                        return "🙂";
+                    }
+                    if (ageMs < 30 * day) {
+                        return "😴";
+                    }
+                    return "💀";
+                }
+
+                function setState(timestamp) {
+                    var parsed = typeof timestamp === "number" ? timestamp : NaN;
+                    if (Number.isNaN(parsed)) {
+                        container.title = "Last edit time unavailable";
+                        relativeText = "Last edit time unavailable";
+                        absoluteText = "Last edit time unavailable";
+                        status.textContent = relativeText;
+                        status.setAttribute("aria-pressed", "false");
+                        link.setAttribute("aria-label", "Open latest update. Last edit time unavailable.");
+                        container.classList.add("is-stale");
+                        return;
+                    }
+
+                    var now = Date.now();
+                    var ageMs = Math.max(0, now - parsed);
+                    emoji.textContent = pickEmoji(ageMs);
+                    var isFresh = ageMs < 24 * 60 * 60 * 1000;
+                    var isPulsing = ageMs < 60 * 60 * 1000;
+
+                    container.classList.toggle("is-fresh", isFresh);
+                    container.classList.toggle("is-stale", !isFresh);
+                    container.classList.toggle("is-pulsing", isPulsing);
+                    relativeText = "Last edit was " + timeAgo(ageMs);
+                    absoluteText = "Last edit was " + formatAbsolute(parsed);
+                    status.textContent = relativeText;
+                    status.setAttribute("aria-pressed", "false");
+                    container.title = relativeText;
+                    link.setAttribute("aria-label", "Open latest update. Last edit was " + timeAgo(ageMs) + ".");
+                }
+
+                var lastmodRaw = container.getAttribute("data-lastmod");
+                var lastmod = lastmodRaw ? Date.parse(lastmodRaw) : NaN;
+                setState(lastmod);
+
+                status.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    isAbsolute = !isAbsolute;
+                    status.textContent = isAbsolute ? absoluteText : relativeText;
+                    status.setAttribute("aria-pressed", isAbsolute ? "true" : "false");
+                });
+
+                status.addEventListener("keydown", function (event) {
+                    if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        isAbsolute = !isAbsolute;
+                        status.textContent = isAbsolute ? absoluteText : relativeText;
+                        status.setAttribute("aria-pressed", isAbsolute ? "true" : "false");
+                    }
+                });
+            })();
+        </script>
+</body>
+
+</html>

@@ -1,9 +1,15 @@
 {{ $showComments := ne .Params.comments false }}
 {{ if $showComments }}
-<section id="comments">
+{{/* Comments are loaded from Isso at comments.tylermorales.pro. The Isso server uses CORS and only allows
+     whitelisted origins (your production domain). So the Comments section and form appear locally, but
+     loading/posting comments will only work when the page is served from an allowed origin (e.g. live site).
+     To test comments locally, add your local URL to Isso's config (e.g. host = "http://localhost:1313/"). */}}
+<section id="comments" aria-label="Comments">
     <h2>Comments</h2>
-    <section id="isso-thread"></section>
+    <section id="isso-thread" aria-label="Comment thread"></section>
     <script data-isso="https://comments.tylermorales.pro/" data-isso-require-author="false" data-isso-vote="true"
+        data-isso-max-comments-nested="5"
         src="https://comments.tylermorales.pro/js/embed.min.js"></script>
+    <script src="/js/comments-avatars.js" defer></script>
 </section>
 {{ end }}
