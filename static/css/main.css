@@ -1234,7 +1234,7 @@ time {
 }
 
 #isso-thread,
-#isso-thread > *,
+#isso-thread>*,
 #comments .isso-feed,
 #comments div.isso-form-wrapper,
 #comments section[id^="isso"],
@@ -1243,7 +1243,7 @@ time {
 }
 
 #isso-thread,
-#isso-thread > *,
+#isso-thread>*,
 #comments .isso-feed,
 #comments .isso-postbox {
     padding: 0;
@@ -1466,6 +1466,7 @@ time {
         align-items: center;
         gap: 0.75rem 1rem;
     }
+
     #comments input[type="submit"] {
         margin-top: 0;
     }
@@ -2240,4 +2241,180 @@ img.image-loading {
     width: auto;
     display: block;
     margin: 0 auto;
+}
+
+/* Forensic details block: loaded last so nothing in this file overrides it.
+   (Imported markdown.css is applied before the rest of main.css.) */
+article .forensic-details,
+.post-content .forensic-details {
+    --forensic-chrome-top: #6ca0e8;
+    --forensic-chrome-bottom: #2f6fbd;
+    --forensic-panel: linear-gradient(165deg, #f0f7ff 0%, #dcecff 40%, #c5dfff 100%);
+    --forensic-panel-border: #4a7eb8;
+    --forensic-inner-bg: #fbfdff;
+    --forensic-heading: #003d7a;
+    --forensic-pre-bg: #0c0e14;
+    --forensic-pre-fg: #3dff9a;
+    --forensic-pre-border: #1a3328;
+    margin: 2.25rem 0;
+    padding: 0;
+    border-radius: 6px;
+    border: 2px solid var(--forensic-panel-border);
+    background: var(--forensic-panel);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        0 3px 0 rgba(0, 40, 80, 0.12),
+        4px 5px 12px rgba(0, 30, 60, 0.18);
+    overflow: hidden;
+}
+
+html[data-theme="dark"] article .forensic-details,
+html[data-theme="dark"] .post-content .forensic-details {
+    --forensic-chrome-top: #4d7ec4;
+    --forensic-chrome-bottom: #1e4a8a;
+    --forensic-panel: linear-gradient(165deg, #1a2332 0%, #141c28 50%, #0f1620 100%);
+    --forensic-panel-border: #3d5a80;
+    --forensic-inner-bg: #121820;
+    --forensic-heading: #8ec5ff;
+    --forensic-pre-bg: #050608;
+    --forensic-pre-fg: #5ee9a0;
+    --forensic-pre-border: #2a4a3a;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 2px 0 rgba(0, 0, 0, 0.35),
+        4px 6px 16px rgba(0, 0, 0, 0.45);
+}
+
+article .forensic-details__summary,
+.post-content .forensic-details__summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: Tahoma, Verdana, "Segoe UI", sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    margin: 0;
+    padding: 0.55rem 0.85rem 0.6rem;
+    color: #fff;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+    background: linear-gradient(180deg, var(--forensic-chrome-top) 0%, var(--forensic-chrome-bottom) 100%);
+    border-bottom: 1px solid rgba(0, 30, 70, 0.35);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+article .forensic-details__summary::-webkit-details-marker,
+.post-content .forensic-details__summary::-webkit-details-marker {
+    display: none;
+}
+
+article .forensic-details__summary::before,
+.post-content .forensic-details__summary::before {
+    content: "[+]";
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+    opacity: 0.95;
+}
+
+article .forensic-details[open]>.forensic-details__summary::before,
+.post-content .forensic-details[open]>.forensic-details__summary::before {
+    content: "[−]";
+}
+
+article .forensic-details__summary:focus-visible,
+.post-content .forensic-details__summary:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+article .forensic-details__inner,
+.post-content .forensic-details__inner {
+    margin: 0;
+    padding: 1rem 1.15rem 1.15rem;
+    background-color: var(--forensic-inner-bg);
+    background-image:
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 11px,
+            rgba(0, 80, 160, 0.04) 11px,
+            rgba(0, 80, 160, 0.04) 12px);
+    border-top: 2px groove rgba(120, 160, 200, 0.45);
+}
+
+html[data-theme="dark"] article .forensic-details__inner,
+html[data-theme="dark"] .post-content .forensic-details__inner {
+    border-top-color: rgba(80, 120, 180, 0.35);
+    background-image:
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 11px,
+            rgba(100, 160, 255, 0.03) 11px,
+            rgba(100, 160, 255, 0.03) 12px);
+}
+
+article .forensic-details__inner>.forensic-details__h3,
+.post-content .forensic-details__inner>.forensic-details__h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.45rem;
+    font-family: Tahoma, Verdana, "Segoe UI", sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--forensic-heading);
+    border-bottom: none;
+    padding-bottom: 0;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+html[data-theme="dark"] article .forensic-details__inner>.forensic-details__h3,
+html[data-theme="dark"] .post-content .forensic-details__inner>.forensic-details__h3 {
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+article .forensic-details__inner>.forensic-details__h3:first-child,
+.post-content .forensic-details__inner>.forensic-details__h3:first-child {
+    margin-top: 0.25rem;
+}
+
+article .forensic-details__inner>p,
+.post-content .forensic-details__inner>p {
+    margin: 0.6rem 0;
+    font-size: 0.98rem;
+    line-height: 1.55;
+}
+
+article .forensic-details__inner>p code,
+.post-content .forensic-details__inner>p code {
+    background: rgba(0, 80, 160, 0.08);
+    border-color: rgba(0, 80, 160, 0.2);
+}
+
+html[data-theme="dark"] article .forensic-details__inner>p code,
+html[data-theme="dark"] .post-content .forensic-details__inner>p code {
+    background: rgba(120, 180, 255, 0.1);
+    border-color: rgba(120, 180, 255, 0.22);
+}
+
+article .forensic-details__inner>pre,
+.post-content .forensic-details__inner>pre {
+    margin: 0.85rem 0;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    border-radius: 2px;
+    border: 2px inset var(--forensic-pre-border);
+    background: var(--forensic-pre-bg);
+    color: var(--forensic-pre-fg);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+article .forensic-details__inner>pre code,
+.post-content .forensic-details__inner>pre code {
+    color: inherit;
+    font-family: "Consolas", "Lucida Console", "Courier New", monospace;
+    text-shadow: 0 0 1px rgba(61, 255, 154, 0.35);
 }

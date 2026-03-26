@@ -2,7 +2,10 @@
 
 ## 2026-03-26
 
+- [x] Removed stray `pubilc/` directory (typo duplicate of Hugo output `public/`; no repo references).
 - [x] Added blog post `content/blog/digital-archaeology-burger-king-xmen/index.md` — Burger King X-Men Mini CD-ROM restoration (MODE1/2352 dump, bchunk → ISO, UTM/Windows XP on Apple Silicon); front matter, glossary by layer.
+- [x] Gatekeeper section: inline screenshot `macOS_error.png` (bundle-local) in `digital-archaeology-burger-king-xmen`.
+- [x] Collapsible "Digital Forensics: Under the Hood" (`<details class="forensic-details">`) in same post—hexdump Toast 4.1 / Apple_HFS, sync header, `bchunk` output, `diskutil list`; CSS at end of `static/css/main.css` (`.forensic-details*`, `.post-content` mirrors).
 
 ## 2026-02-23
 
