@@ -12,13 +12,18 @@ npm install
 
 ## Run Dev
 ```
-hugo server
+npm run dev
 ```
+(`hugo server`)
 
 ## Build / Start (Prod)
 ```
 hugo --destination public
 ```
+
+## Optional v86 experiments (`tools/vm-setup/`)
+
+The site no longer embeds v86 on a project page. If you experiment with [v86](https://github.com/copy/v86) locally, see **`tools/vm-setup/README.md`**: BIOS download script, disk/ISO placement, **`npm run serve:v86-hda`** (serves a large HDA on port **8765** with CORS), and **`capture-state.html`** for snapshot capture outside Hugo.
 
 ## Blog assets (page bundles)
 

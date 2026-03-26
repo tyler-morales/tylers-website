@@ -5,3 +5,9 @@ resources/_gen/
 .hugo_build.lock
 .cursor/
 
+# v86 / VM assets (large; use tools/vm-setup/download-bios.sh + place images locally)
+tools/vm-setup/images/*.bin
+tools/vm-setup/images/*.img
+tools/vm-setup/images/*.iso
+tools/vm-setup/images/*.state
+

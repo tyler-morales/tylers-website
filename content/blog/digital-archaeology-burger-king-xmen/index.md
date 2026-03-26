@@ -5,6 +5,8 @@ date: 2026-03-26
 author: "Tyler Morales"
 description: "From unreadable MODE1/2352 sectors to a Windows XP VM—restoring a promotional Mini CD-ROM on Apple Silicon."
 summary: ""
+featured_image: "xmen-cds.jpg"
+featured_image_alt: "Three Burger King X-Men Evolution promotional mini CDs: Wolverine, Nightcrawler, and Magneto."
 tags:
   - digital preservation
   - retrocomputing
@@ -50,6 +52,18 @@ To bridge this gap, I used UTM to spin up a Windows XP virtual machine. UTM acte
 
 Inside this virtual "time capsule," I provided the game with its natural habitat: Windows XP, DirectX, and the long-forgotten QuickTime 5. I "mounted" my cleaned `.iso` into the virtual drive, and for the first time in a quarter-century, the game's autoplay window flickered to life.
 
+![Windows XP My Computer: Devices with Removable Storage, drive labeled X-MEN (D:).](xmen_d_drive.png)
+
+*The VM recognizes the mounted image as a real disc—**X-MEN** on D:, not an anonymous volume.*
+
+![Windows XP desktop in UTM on macOS: Bliss wallpaper, QuickTime Player, and X-Men promo assets on the desktop.](windows_xp.png)
+
+*The time capsule: Windows XP in its own window—Bliss, QuickTime, and the rescued disc’s files finally readable.*
+
+![Burger King X-Men Evolution promo program running in a Windows XP window: Magneto character screen with HOME, QUIT, Xavier Institute, and Bayville High navigation.](xmen_program_magneto.png)
+
+*The payoff: the original interactive launcher alive again—Magneto’s screen, Big Kids branding, and early-2000s UI chrome inside UTM.*
+
 ## Results & Learnings
 
 Achieving that "Level Clear" screen wasn't just about a game; it was about the pipeline. I learned that every "big" technical problem is just a series of small, solvable gaps in knowledge.
@@ -57,6 +71,10 @@ Achieving that "Level Clear" screen wasn't just about a game; it was about the p
 By poking into raw binary code and emulating long-dead hardware, I realized that digital preservation is a manual labor of love. We have to "lead" our modern machines back to the past because they’ve forgotten the old dialects.
 
 In the end, I didn't just restore a toy; I proved that with the right tools, no core memory is ever truly unreadable.
+
+## Related project
+
+The companion **[X-Men Time Machine](/projects/xmen-time-machine/)** project page summarizes this preservation effort alongside the restoration story above. Run the disc in a VM (UTM / Windows XP) as described in this post; there is no in-browser emulator on the site.
 
 <details class="forensic-details">
 <summary class="forensic-details__summary">Digital Forensics: Under the Hood</summary>

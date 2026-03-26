@@ -3,10 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "hugo server",
     "compress-images": "node ./scripts/compress-images.mjs",
     "lint:md": "markdownlint \"content/**/*.md\"",
     "test:site": "node ./scripts/check-site.mjs",
-    "test:links": "node ./scripts/check-site.mjs"
+    "test:links": "node ./scripts/check-site.mjs",
+    "serve:v86-hda": "python3 tools/vm-setup/serve-v86-hda.py"
   },
   "devDependencies": {
     "@iarna/toml": "^3.0.0",

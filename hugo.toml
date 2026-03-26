@@ -2,6 +2,14 @@ baseURL = 'https://tylermorales.pro/'
 languageCode = 'en-us'
 title = 'Tylers New and Improved Website'
 
+[module]
+  [[module.mounts]]
+    source = "static"
+    target = "static"
+  [[module.mounts]]
+    source = "assets"
+    target = "assets"
+
 [outputs]
   home = ['HTML', 'JSON']
 
