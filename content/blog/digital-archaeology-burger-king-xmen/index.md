@@ -5,7 +5,7 @@ date: 2026-03-26
 author: "Tyler Morales"
 description: "From unreadable MODE1/2352 sectors to a Windows XP VM—restoring a promotional Mini CD-ROM on Apple Silicon."
 summary: ""
-featured_image: "xmen-cds.jpg"
+featured_image: "xmen-cds.webp"
 featured_image_alt: "Three Burger King X-Men Evolution promotional mini CDs: Wolverine, Nightcrawler, and Magneto."
 tags:
   - digital preservation
@@ -56,11 +56,11 @@ Inside this virtual "time capsule," I provided the game with its natural habitat
 
 *The VM recognizes the mounted image as a real disc—**X-MEN** on D:, not an anonymous volume.*
 
-![Windows XP desktop in UTM on macOS: Bliss wallpaper, QuickTime Player, and X-Men promo assets on the desktop.](windows_xp.png)
+![Windows XP desktop in UTM on macOS: Bliss wallpaper, QuickTime Player, and X-Men promo assets on the desktop.](windows_xp.webp)
 
 *The time capsule: Windows XP in its own window—Bliss, QuickTime, and the rescued disc’s files finally readable.*
 
-![Burger King X-Men Evolution promo program running in a Windows XP window: Magneto character screen with HOME, QUIT, Xavier Institute, and Bayville High navigation.](xmen_program_magneto.png)
+![Burger King X-Men Evolution promo program running in a Windows XP window: Magneto character screen with HOME, QUIT, Xavier Institute, and Bayville High navigation.](xmen_program_magneto.webp)
 
 *The payoff: the original interactive launcher alive again—Magneto’s screen, Big Kids branding, and early-2000s UI chrome inside UTM.*
 

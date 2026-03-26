@@ -2,7 +2,7 @@
 title: "X-Men Time Machine"
 date: 2026-03-26
 description: "Companion project to the Burger King X-Men Mini CD-ROM restoration: digital preservation and the story behind rescuing a 2001 promo disc."
-featured_image: "xmen-cds.jpg"
+featured_image: "xmen-cds.webp"
 featured_image_alt: "Three Burger King X-Men Evolution promotional mini CDs: Wolverine, Nightcrawler, and Magneto."
 status: "In progress"
 year: 2026
