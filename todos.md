@@ -1,5 +1,9 @@
 # Todo Tracker
 
+## 2026-03-26
+
+- [x] Added blog post `content/blog/digital-archaeology-burger-king-xmen/index.md` — Burger King X-Men Mini CD-ROM restoration (MODE1/2352 dump, bchunk → ISO, UTM/Windows XP on Apple Silicon); front matter, glossary by layer.
+
 ## 2026-02-23
 
 - [x] Comments implementation review: confirmed comments use Isso at `comments.tylermorales.pro`; partial in `layouts/partials/comments.html` included from `single-base.html` (blog, projects, events, about). Comments only work when the page origin is whitelisted on the Isso server (CORS), so local preview shows the section but thread load/post fails unless localhost is added to Isso config. Documented in README (Local vs live) and in partial (HTML comment); added `aria-label` on comments section and thread for a11y.
