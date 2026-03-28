@@ -1,4 +1,6 @@
 node_modules/
+# Disk images blow up git history + push time; host downloads elsewhere if needed
+*.dmg
 public/
 resources/_gen/
 .DS_Store
