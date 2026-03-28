@@ -1,5 +1,9 @@
 # Todo Tracker
 
+## 2026-03-28
+
+- [x] **Stale DMG in Hugo output:** Deleted `public/blog/sunday-morning/Rave-1.17.12-universal.dmg` (~317 MB). It was not in `content/` (leftover from older builds). `public/` is gitignored; `*.dmg` ignored repo-wide. `hugo --minify` does not recreate it.
+
 ## 2026-03-26
 
 - [x] **Merged feature branch into `main`:** `blog/digital-archaeology-burger-king-xmen` was already up to date with `origin/main`; fast-forwarded local `main` (`git merge --ff-only`) and pushed `main` → `origin/main` (`f15e95b..d8fc34c`).
