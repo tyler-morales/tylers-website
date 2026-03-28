@@ -2,6 +2,7 @@
 
 ## 2026-03-26
 
+- [x] **Merged feature branch into `main`:** `blog/digital-archaeology-burger-king-xmen` was already up to date with `origin/main`; fast-forwarded local `main` (`git merge --ff-only`) and pushed `main` → `origin/main` (`f15e95b..d8fc34c`).
 - [x] **Removed ~302 MB DMG from repo + history:** `git rm` the file; `git filter-branch` index-filter stripped `content/blog/sunday-morning/Rave-1.17.12-universal.dmg` from all commits on affected branch(es), `rm .git/refs/original`, `git gc --prune=now --aggressive` so the blob is gone locally. `.gitignore` has `*.dmg`. Push with `git push --force-with-lease origin blog/digital-archaeology-burger-king-xmen` (rewritten history).
 - [x] **Deleted/consolidated — X-Men v86 player:** Removed in-browser v86 embed from `content/projects/xmen-time-machine/index.md`; deleted `layouts/shortcodes/v86.html`, `static/js/v86-launcher.js`, `scripts/v86-launcher.test.mjs`, `.v86-*` CSS in `static/css/main.css`; `npm run dev` is `hugo server` only; dropped `concurrently` and `test:v86` from `package.json`; removed `tools/vm-setup/images` → `static/v86` mount from `hugo.toml`; README + blog cross-link updated; kept `npm run serve:v86-hda` for optional offline v86 tooling under `tools/vm-setup/`.
 - [x] **v86 OOM (Aw Snap / error 5):** Shortcode `disable_jit="true"` + data attr; launcher passes `disable_jit` to `V86`. X-Men project: `memory="128"` `vga_memory="4"` `disable_jit="true"` + user-facing note (Chromium tab RAM / state snapshot).
